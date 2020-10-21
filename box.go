@@ -358,9 +358,9 @@ func (b *Box) SetBackgroundTransparent(transparent bool) *Box {
 	return b
 }
 
-// GetBorder returns a value indicating whether the box have a border
+// HasBorder returns a value indicating whether the box have a border
 // or not.
-func (b *Box) GetBorder() bool {
+func (b *Box) HasBorder() bool {
 	b.l.RLock()
 	defer b.l.RUnlock()
 	return b.border

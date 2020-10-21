@@ -11,12 +11,14 @@ import (
 type Window struct {
 	*Box
 
-	primitive Primitive
-
-	x, y          int
-	width, height int
-	fullscreen    bool
-	centered      bool
+	primitive      Primitive
+	x, y           int
+	width, height  int
+	fullscreen     bool
+	centered       bool
+	statusbar      string
+	statusbarAlign int
+	statusbarColor tcell.Color
 
 	dragX, dragY   int
 	dragWX, dragWY int
@@ -26,14 +28,56 @@ type Window struct {
 
 // NewWindow returns a new window around the given primitive.
 func NewWindow(primitive Primitive) *Window {
-	w := &Window{
-		Box:       NewBox(),
-		primitive: primitive,
-		dragWX:    -1,
-		dragWY:    -1,
-	}
+	w := new(Window)
+	w.Box = NewBox()
+	w.primitive = primitive
+	w.dragWX, w.dragWY = -1, -1
 	w.Box.focus = w
+	w.statusbarAlign = AlignRight
+
 	return w
+}
+
+// SetStatusBar widget to be displayed on the window
+func (w *Window) SetStatus(text string) *Window {
+	w.Lock()
+	defer w.Unlock()
+
+	w.statusbar = text
+	return w
+}
+
+// GetStatusBar widget
+func (w *Window) GetStatus() string {
+	return w.statusbar
+}
+
+// SetStatusBarAlign on the window's footer (left/centered/right). Default: right
+func (w *Window) SetStatusBarAlign(align int) *Window {
+	w.Lock()
+	defer w.Unlock()
+
+	w.statusbarAlign = align
+	return w
+}
+
+// SetStatusBarColor for the text. However, in case the string is dynamic, this is overridden.
+func (w *Window) SetStatusBarColor(color tcell.Color) *Window {
+	w.Lock()
+	defer w.Unlock()
+
+	w.statusbarColor = color
+	return w
+}
+
+// GetStatusBarColor for the text.
+func (w *Window) GetStatusBarColor() tcell.Color {
+	return w.statusbarColor
+}
+
+// GetStatusBarAlign current alignment
+func (w *Window) GetStatusBarAlign() int {
+	return w.statusbarAlign
 }
 
 // SetPosition sets the position of the window.
