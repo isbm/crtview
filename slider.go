@@ -198,7 +198,7 @@ func (s *Slider) SetFinishedFunc(handler func(key tcell.Key)) {
 
 // Draw draws this primitive onto the screen.
 func (s *Slider) Draw(screen tcell.Screen) {
-	if !s.GetVisible() {
+	if !s.IsVisible() {
 		return
 	}
 

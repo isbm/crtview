@@ -320,7 +320,7 @@ func (t *TabbedPanels) updateAll() {
 
 // Draw draws this primitive onto the screen.
 func (t *TabbedPanels) Draw(screen tcell.Screen) {
-	if !t.GetVisible() {
+	if !t.IsVisible() {
 		return
 	}
 

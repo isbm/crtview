@@ -70,7 +70,7 @@ func (wm *WindowManager) HasFocus() bool {
 
 // Draw draws this primitive onto the screen.
 func (wm *WindowManager) Draw(screen tcell.Screen) {
-	if !wm.GetVisible() {
+	if !wm.IsVisible() {
 		return
 	}
 
@@ -81,7 +81,7 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 
 	var hasFullScreen bool
 	for _, w := range wm.windows {
-		if !w.fullscreen || !w.GetVisible() {
+		if !w.fullscreen || !w.IsVisible() {
 			continue
 		}
 
@@ -95,7 +95,7 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 	}
 
 	for _, w := range wm.windows {
-		if !w.GetVisible() {
+		if !w.IsVisible() {
 			continue
 		}
 

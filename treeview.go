@@ -740,7 +740,7 @@ func (t *TreeView) process() {
 
 // Draw draws this primitive onto the screen.
 func (t *TreeView) Draw(screen tcell.Screen) {
-	if !t.GetVisible() {
+	if !t.IsVisible() {
 		return
 	}
 

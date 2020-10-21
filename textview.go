@@ -953,7 +953,7 @@ func (t *TextView) reindexBuffer(width int) {
 
 // Draw draws this primitive onto the screen.
 func (t *TextView) Draw(screen tcell.Screen) {
-	if !t.GetVisible() {
+	if !t.IsVisible() {
 		return
 	}
 

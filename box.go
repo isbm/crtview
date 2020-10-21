@@ -102,11 +102,12 @@ func (b *Box) GetBorderPadding() (top, bottom, left, right int) {
 }
 
 // SetBorderPadding sets the size of the borders around the box content.
-func (b *Box) SetBorderPadding(top, bottom, left, right int) {
+func (b *Box) SetBorderPadding(top, bottom, left, right int) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.paddingTop, b.paddingBottom, b.paddingLeft, b.paddingRight = top, bottom, left, right
+	return b
 }
 
 // GetRect returns the current position of the rectangle, x, y, width, and
@@ -167,16 +168,28 @@ func (b *Box) SetRect(x, y, width, height int) {
 	b.innerX = -1 // Mark inner rect as uninitialized.
 }
 
-// SetVisible sets the flag indicating whether or not the box is visible.
-func (b *Box) SetVisible(v bool) {
+// Internal method, sets the flag indicating whether or not the box is visible.
+func (b *Box) setVisible(v bool) {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.visible = v
 }
 
-// GetVisible returns a value indicating whether or not the box is visible.
-func (b *Box) GetVisible() bool {
+// Show box
+func (b *Box) Show() *Box {
+	b.setVisible(true)
+	return b
+}
+
+// Hide box
+func (b *Box) Hide() *Box {
+	b.setVisible(false)
+	return b
+}
+
+// IsVisible returns a value indicating whether or not the box is visible.
+func (b *Box) IsVisible() bool {
 	b.l.RLock()
 	defer b.l.RUnlock()
 
@@ -191,11 +204,12 @@ func (b *Box) GetVisible() bool {
 // must return the box's inner dimensions (x, y, width, height) which will be
 // returned by GetInnerRect(), used by descendent primitives to draw their own
 // content.
-func (b *Box) SetDrawFunc(handler func(screen tcell.Screen, x, y, width, height int) (int, int, int, int)) {
+func (b *Box) SetDrawFunc(handler func(screen tcell.Screen, x, y, width, height int) (int, int, int, int)) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.draw = handler
+	return b
 }
 
 // GetDrawFunc returns the callback function which was installed with
@@ -245,11 +259,12 @@ func (b *Box) InputHandler() func(event *tcell.EventKey, setFocus func(p Primiti
 // can have focus at a time. Composing primitives such as Form pass the focus on
 // to their contained primitives and thus never receive any key events
 // themselves. Therefore, they cannot intercept key events.
-func (b *Box) SetInputCapture(capture func(event *tcell.EventKey) *tcell.EventKey) {
+func (b *Box) SetInputCapture(capture func(event *tcell.EventKey) *tcell.EventKey) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.inputCapture = capture
+	return b
 }
 
 // GetInputCapture returns the function installed with SetInputCapture() or nil
@@ -297,8 +312,12 @@ func (b *Box) MouseHandler() func(action MouseAction, event *tcell.EventMouse, s
 // called.
 //
 // Providing a nil handler will remove a previously existing handler.
-func (b *Box) SetMouseCapture(capture func(action MouseAction, event *tcell.EventMouse) (MouseAction, *tcell.EventMouse)) {
+func (b *Box) SetMouseCapture(capture func(action MouseAction, event *tcell.EventMouse) (MouseAction, *tcell.EventMouse)) *Box {
+	b.l.Lock()
+	defer b.l.Unlock()
+
 	b.mouseCapture = capture
+	return b
 }
 
 // InRect returns true if the given coordinate is within the bounds of the box's
@@ -331,11 +350,12 @@ func (b *Box) GetBackgroundColor() tcell.Color {
 
 // SetBackgroundTransparent sets the flag indicating whether or not the box's
 // background is transparent.
-func (b *Box) SetBackgroundTransparent(transparent bool) {
+func (b *Box) SetBackgroundTransparent(transparent bool) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.backgroundTransparent = transparent
+	return b
 }
 
 // GetBorder returns a value indicating whether the box have a border
@@ -348,45 +368,50 @@ func (b *Box) GetBorder() bool {
 
 // SetBorder sets the flag indicating whether or not the box should have a
 // border.
-func (b *Box) SetBorder(show bool) {
+func (b *Box) SetBorder(show bool) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.border = show
+	return b
 }
 
 // SetBorderColor sets the box's border color.
-func (b *Box) SetBorderColor(color tcell.Color) {
+func (b *Box) SetBorderColor(color tcell.Color) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.borderColor = color
+	return b
 }
 
 // SetBorderColorFocused sets the box's border color when the box is focused.
-func (b *Box) SetBorderColorFocused(color tcell.Color) {
+func (b *Box) SetBorderColorFocused(color tcell.Color) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 	b.borderColorFocused = color
+	return b
 }
 
 // SetBorderAttributes sets the border's style attributes. You can combine
 // different attributes using bitmask operations:
 //
 //   box.SetBorderAttributes(tcell.AttrUnderline | tcell.AttrBold)
-func (b *Box) SetBorderAttributes(attr tcell.AttrMask) {
+func (b *Box) SetBorderAttributes(attr tcell.AttrMask) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.borderAttributes = attr
+	return b
 }
 
 // SetTitle sets the box's title.
-func (b *Box) SetTitle(title string) {
+func (b *Box) SetTitle(title string) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.title = []byte(title)
+	return b
 }
 
 // GetTitle returns the box's current title.
@@ -398,20 +423,22 @@ func (b *Box) GetTitle() string {
 }
 
 // SetTitleColor sets the box's title color.
-func (b *Box) SetTitleColor(color tcell.Color) {
+func (b *Box) SetTitleColor(color tcell.Color) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.titleColor = color
+	return b
 }
 
 // SetTitleAlign sets the alignment of the title, one of AlignLeft, AlignCenter,
 // or AlignRight.
-func (b *Box) SetTitleAlign(align int) {
+func (b *Box) SetTitleAlign(align int) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.titleAlign = align
+	return b
 }
 
 // Draw draws this primitive onto the screen.
@@ -540,11 +567,12 @@ func (b *Box) Draw(screen tcell.Screen) {
 
 // ShowFocus sets the flag indicating whether or not the borders of this
 // primitive should change thickness when focused.
-func (b *Box) ShowFocus(showFocus bool) {
+func (b *Box) ShowFocus(showFocus bool) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
 	b.showFocus = showFocus
+	return b
 }
 
 // Focus is called when this primitive receives focus.

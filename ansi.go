@@ -128,19 +128,19 @@ func (a *ansi) Write(text []byte) (int, error) {
 					for index, field := range fields {
 						switch field {
 						case "1", "01":
-							if strings.IndexRune(a.attributes, 'b') < 0 {
+							if !strings.ContainsRune(a.attributes, 'b') {
 								a.attributes += "b"
 							}
 						case "2", "02":
-							if strings.IndexRune(a.attributes, 'd') < 0 {
+							if !strings.ContainsRune(a.attributes, 'd') {
 								a.attributes += "d"
 							}
 						case "4", "04":
-							if strings.IndexRune(a.attributes, 'u') < 0 {
+							if !strings.ContainsRune(a.attributes, 'u') {
 								a.attributes += "u"
 							}
 						case "5", "05":
-							if strings.IndexRune(a.attributes, 'l') < 0 {
+							if !strings.ContainsRune(a.attributes, 'l') {
 								a.attributes += "l"
 							}
 						case "22":
@@ -253,6 +253,8 @@ func (a *ansi) Write(text []byte) (int, error) {
 func TranslateANSI(text string) string {
 	var buffer bytes.Buffer
 	writer := ANSIWriter(&buffer)
-	writer.Write([]byte(text))
+	if _, err := writer.Write([]byte(text)); err != nil {
+		panic("Error writing ANSI buffer: " + err.Error())
+	}
 	return buffer.String()
 }

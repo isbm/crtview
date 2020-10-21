@@ -189,7 +189,7 @@ func (m *Modal) HasFocus() bool {
 
 // Draw draws this primitive onto the screen.
 func (m *Modal) Draw(screen tcell.Screen) {
-	if !m.GetVisible() {
+	if !m.IsVisible() {
 		return
 	}
 

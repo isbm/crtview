@@ -447,7 +447,6 @@ func (l *List) ShowSecondaryText(show bool) {
 	defer l.Unlock()
 
 	l.showSecondaryText = show
-	return
 }
 
 // SetScrollBarVisibility specifies the display of the scroll bar.
@@ -853,7 +852,7 @@ func (l *List) updateOffset() {
 
 // Draw draws this primitive onto the screen.
 func (l *List) Draw(screen tcell.Screen) {
-	if !l.GetVisible() {
+	if !l.IsVisible() {
 		return
 	}
 
@@ -1000,8 +999,6 @@ func (l *List) Draw(screen tcell.Screen) {
 	// Draw context menu.
 	if hasFocus && l.ContextMenu.open {
 		ctx := l.ContextMenuList()
-
-		x, y, width, height = l.GetInnerRect()
 
 		// What's the longest option text?
 		maxWidth := 0

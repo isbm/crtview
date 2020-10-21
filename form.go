@@ -641,7 +641,7 @@ func (f *Form) getAttributes() *FormItemAttributes {
 
 // Draw draws this primitive onto the screen.
 func (f *Form) Draw(screen tcell.Screen) {
-	if !f.GetVisible() {
+	if !f.IsVisible() {
 		return
 	}
 
@@ -676,7 +676,7 @@ func (f *Form) Draw(screen tcell.Screen) {
 	positions := make([]struct{ x, y, width, height int }, len(f.items)+len(f.buttons))
 	var focusedPosition struct{ x, y, width, height int }
 	for index, item := range f.items {
-		if !item.GetVisible() {
+		if !item.IsVisible() {
 			continue
 		}
 
@@ -754,7 +754,7 @@ func (f *Form) Draw(screen tcell.Screen) {
 
 	// Calculate positions of buttons.
 	for index, button := range f.buttons {
-		if !button.GetVisible() {
+		if !button.IsVisible() {
 			continue
 		}
 
@@ -803,7 +803,7 @@ func (f *Form) Draw(screen tcell.Screen) {
 
 	// Draw items.
 	for index, item := range f.items {
-		if !item.GetVisible() {
+		if !item.IsVisible() {
 			continue
 		}
 
@@ -827,7 +827,7 @@ func (f *Form) Draw(screen tcell.Screen) {
 
 	// Draw buttons.
 	for index, button := range f.buttons {
-		if !button.GetVisible() {
+		if !button.IsVisible() {
 			continue
 		}
 
@@ -867,12 +867,12 @@ func (f *Form) updateFocusedElement(decreasing bool) {
 
 		if f.focusedElement < li {
 			item := f.items[f.focusedElement]
-			if item.GetVisible() {
+			if item.IsVisible() {
 				break
 			}
 		} else {
 			button := f.buttons[f.focusedElement-li]
-			if button.GetVisible() {
+			if button.IsVisible() {
 				break
 			}
 		}
@@ -974,12 +974,12 @@ func (f *Form) HasFocus() bool {
 // has focus.
 func (f *Form) focusIndex() int {
 	for index, item := range f.items {
-		if item.GetVisible() && item.GetFocusable().HasFocus() {
+		if item.IsVisible() && item.GetFocusable().HasFocus() {
 			return index
 		}
 	}
 	for index, button := range f.buttons {
-		if button.GetVisible() && button.focus.HasFocus() {
+		if button.IsVisible() && button.focus.HasFocus() {
 			return len(f.items) + index
 		}
 	}
