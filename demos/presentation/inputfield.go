@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 const inputField = `[green]package[white] main
@@ -11,29 +11,29 @@ const inputField = `[green]package[white] main
     [red]"strconv"[white]
 
     [red]"github.com/gdamore/tcell/v2"[white]
-    [red]"gitlab.com/tslocum/cview"[white]
+    [red]"github.com/isbm/crtview"[white]
 )
 
 [green]func[white] [yellow]main[white]() {
-    input := cview.[yellow]NewInputField[white]().
+    input := crtview.[yellow]NewInputField[white]().
         [yellow]SetLabel[white]([red]"Enter a number: "[white]).
         [yellow]SetAcceptanceFunc[white](
-            cview.InputFieldInteger,
+            crtview.InputFieldInteger,
         ).[yellow]SetDoneFunc[white]([yellow]func[white](key tcell.Key) {
             text := input.[yellow]GetText[white]()
             n, _ := strconv.[yellow]Atoi[white](text)
             [blue]// We have a number.[white]
         })
-    cview.[yellow]NewApplication[white]().
+    crtview.[yellow]NewApplication[white]().
         [yellow]SetRoot[white](input, true).
         [yellow]Run[white]()
 }`
 
 // InputField demonstrates the InputField.
-func InputField(nextSlide func()) (title string, content cview.Primitive) {
-	input := cview.NewInputField()
+func InputField(nextSlide func()) (title string, content crtview.Primitive) {
+	input := crtview.NewInputField()
 	input.SetLabel("Enter a number: ")
-	input.SetAcceptanceFunc(cview.InputFieldInteger)
+	input.SetAcceptanceFunc(crtview.InputFieldInteger)
 	input.SetDoneFunc(func(key tcell.Key) {
 		nextSlide()
 	})

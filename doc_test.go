@@ -1,4 +1,4 @@
-package cview
+package crtview
 
 import (
 	"fmt"
@@ -28,7 +28,7 @@ func ExampleNewApplication() {
 	// Create about layout using Grid.
 	aboutTextView := NewTextView()
 	aboutTextView.SetTextAlign(AlignCenter)
-	aboutTextView.SetText("cview muti-layout application example\n\nhttps://gitlab.com/tslocum/cview")
+	aboutTextView.SetText("crtview muti-layout application example\n\nhttps://github.com/isbm/crtview")
 
 	aboutLayout := NewGrid()
 	aboutLayout.AddItem(aboutTextView, 0, 0, 1, 1, 0, 0, false)

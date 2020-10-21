@@ -2,14 +2,14 @@
 package main
 
 import (
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	checkbox := cview.NewCheckBox()
+	checkbox := crtview.NewCheckBox()
 	checkbox.SetLabel("Hit Enter to check box: ")
 
 	app.SetRoot(checkbox, true)

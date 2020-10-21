@@ -2,22 +2,22 @@ package main
 
 import (
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
-func demoBox(title string) *cview.Box {
-	b := cview.NewBox()
+func demoBox(title string) *crtview.Box {
+	b := crtview.NewBox()
 	b.SetBorder(true)
 	b.SetTitle(title)
 	return b
 }
 
 // Flex demonstrates flexbox layout.
-func Flex(nextSlide func()) (title string, content cview.Primitive) {
+func Flex(nextSlide func()) (title string, content crtview.Primitive) {
 	modalShown := false
-	panels := cview.NewPanels()
+	panels := crtview.NewPanels()
 
-	textView := cview.NewTextView()
+	textView := crtview.NewTextView()
 	textView.SetBorder(true)
 	textView.SetTitle("Flexible width, twice of middle column")
 	textView.SetDoneFunc(func(key tcell.Key) {
@@ -30,18 +30,18 @@ func Flex(nextSlide func()) (title string, content cview.Primitive) {
 		}
 	})
 
-	subFlex := cview.NewFlex()
-	subFlex.SetDirection(cview.FlexRow)
+	subFlex := crtview.NewFlex()
+	subFlex.SetDirection(crtview.FlexRow)
 	subFlex.AddItem(demoBox("Flexible width"), 0, 1, false)
 	subFlex.AddItem(demoBox("Fixed height"), 15, 1, false)
 	subFlex.AddItem(demoBox("Flexible height"), 0, 1, false)
 
-	flex := cview.NewFlex()
+	flex := crtview.NewFlex()
 	flex.AddItem(textView, 0, 2, true)
 	flex.AddItem(subFlex, 0, 1, false)
 	flex.AddItem(demoBox("Fixed width"), 30, 1, false)
 
-	modal := cview.NewModal()
+	modal := crtview.NewModal()
 	modal.SetText("Resize the window to see the effect of the flexbox parameters")
 	modal.AddButtons([]string{"Ok"})
 	modal.SetDoneFunc(func(buttonIndex int, buttonLabel string) {

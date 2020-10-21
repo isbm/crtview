@@ -1,4 +1,4 @@
-package cview
+package crtview
 
 import (
 	"github.com/gdamore/tcell/v2"

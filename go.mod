@@ -1,4 +1,4 @@
-module gitlab.com/tslocum/cview
+module github.com/isbm/crtview
 
 go 1.12
 

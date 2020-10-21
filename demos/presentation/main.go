@@ -1,5 +1,5 @@
 /*
-A presentation of the cview package, implemented with cview.
+A presentation of the crtview package, implemented with crtview.
 
 Navigation
 
@@ -21,16 +21,16 @@ import (
 	"strconv"
 
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 // Slide is a function which returns the slide's main primitive and its title.
 // It receives a "nextSlide" function which can be called to advance the
 // presentation to the next slide.
-type Slide func(nextSlide func()) (title string, content cview.Primitive)
+type Slide func(nextSlide func()) (title string, content crtview.Primitive)
 
 // The application.
-var app = cview.NewApplication()
+var app = crtview.NewApplication()
 
 // Starting point for the presentation.
 func main() {
@@ -64,7 +64,7 @@ func main() {
 		End,
 	}
 
-	panels := cview.NewTabbedPanels()
+	panels := crtview.NewTabbedPanels()
 
 	// Create the pages for all slides.
 	previousSlide := func() {

@@ -6,30 +6,30 @@ import (
 	"path/filepath"
 
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 // Show a navigable tree view of the current directory.
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
 	rootDir := "."
-	root := cview.NewTreeNode(rootDir)
+	root := crtview.NewTreeNode(rootDir)
 	root.SetColor(tcell.ColorRed.TrueColor())
-	tree := cview.NewTreeView()
+	tree := crtview.NewTreeView()
 	tree.SetRoot(root)
 	tree.SetCurrentNode(root)
 
 	// A helper function which adds the files and directories of the given path
 	// to the given target node.
-	add := func(target *cview.TreeNode, path string) {
+	add := func(target *crtview.TreeNode, path string) {
 		files, err := ioutil.ReadDir(path)
 		if err != nil {
 			panic(err)
 		}
 		for _, file := range files {
-			node := cview.NewTreeNode(file.Name())
+			node := crtview.NewTreeNode(file.Name())
 			node.SetReference(filepath.Join(path, file.Name()))
 			node.SetSelectable(file.IsDir())
 			if file.IsDir() {
@@ -43,7 +43,7 @@ func main() {
 	add(root, rootDir)
 
 	// If a directory was selected, open it.
-	tree.SetSelectedFunc(func(node *cview.TreeNode) {
+	tree.SetSelectedFunc(func(node *crtview.TreeNode) {
 		reference := node.GetReference()
 		if reference == nil {
 			return // Selecting the root node does nothing.

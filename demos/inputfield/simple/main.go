@@ -3,18 +3,18 @@ package main
 
 import (
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	inputField := cview.NewInputField()
+	inputField := crtview.NewInputField()
 	inputField.SetLabel("Enter a number: ")
 	inputField.SetPlaceholder("E.g. 1234")
 	inputField.SetFieldWidth(10)
-	inputField.SetAcceptanceFunc(cview.InputFieldInteger)
+	inputField.SetAcceptanceFunc(crtview.InputFieldInteger)
 	inputField.SetDoneFunc(func(key tcell.Key) {
 		app.Stop()
 	})

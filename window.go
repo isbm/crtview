@@ -1,4 +1,4 @@
-package cview
+package crtview
 
 import (
 	"sync"
@@ -13,10 +13,10 @@ type Window struct {
 
 	primitive Primitive
 
-	fullscreen bool
-
-	normalX, normalY int
-	normalW, normalH int
+	x, y          int
+	width, height int
+	fullscreen    bool
+	centered      bool
 
 	dragX, dragY   int
 	dragWX, dragWY int
@@ -36,22 +36,49 @@ func NewWindow(primitive Primitive) *Window {
 	return w
 }
 
-// SetFullscreen sets the flag indicating whether or not the the window should
-// be drawn fullscreen.
-func (w *Window) SetFullscreen(fullscreen bool) {
+// SetPosition sets the position of the window.
+func (w *Window) SetPosition(x, y int) *Window {
 	w.Lock()
 	defer w.Unlock()
 
-	if w.fullscreen == fullscreen {
-		return
-	}
+	w.x, w.y = x, y
+	return w
+}
+
+// SetSize sets the size of the window.
+func (w *Window) SetSize(width, height int) *Window {
+	w.Lock()
+	defer w.Unlock()
+
+	w.width, w.height = width, height
+	return w
+}
+
+// SetFullscreen sets the flag indicating whether or not the the window should
+// be drawn fullscreen.
+func (w *Window) SetFullscreen(fullscreen bool) *Window {
+	w.Lock()
+	defer w.Unlock()
 
 	w.fullscreen = fullscreen
-	if w.fullscreen {
-		w.normalX, w.normalY, w.normalW, w.normalH = w.GetRect()
-	} else {
-		w.SetRect(w.normalX, w.normalY, w.normalW, w.normalH)
-	}
+	return w
+}
+
+// SetPositionCenter sets the flag to the Window Manager that the current window should be displayed centered.
+// If SetPosition is called, this flag is reset to false.
+func (w *Window) SetPositionCenter() *Window {
+	w.centered = true
+	return w
+}
+
+// GetSize gets the size of the window
+func (w *Window) GetSize() (int, int) {
+	return w.width, w.height
+}
+
+// IsCentered returns true if window is meant to be displayed center
+func (w *Window) IsCentered() bool {
+	return w.centered
 }
 
 // Focus is called when this primitive receives focus.
@@ -60,7 +87,6 @@ func (w *Window) Focus(delegate func(p Primitive)) {
 	defer w.Unlock()
 
 	w.Box.Focus(delegate)
-
 	w.primitive.Focus(delegate)
 }
 
@@ -70,7 +96,6 @@ func (w *Window) Blur() {
 	defer w.Unlock()
 
 	w.Box.Blur()
-
 	w.primitive.Blur()
 }
 

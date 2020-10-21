@@ -2,17 +2,17 @@ package main
 
 import (
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 // Grid demonstrates the grid layout.
-func Grid(nextSlide func()) (title string, content cview.Primitive) {
+func Grid(nextSlide func()) (title string, content crtview.Primitive) {
 	modalShown := false
-	panels := cview.NewPanels()
+	panels := crtview.NewPanels()
 
-	newPrimitive := func(text string) cview.Primitive {
-		tv := cview.NewTextView()
-		tv.SetTextAlign(cview.AlignCenter)
+	newPrimitive := func(text string) crtview.Primitive {
+		tv := crtview.NewTextView()
+		tv.SetTextAlign(crtview.AlignCenter)
 		tv.SetText(text)
 		tv.SetDoneFunc(func(key tcell.Key) {
 			if modalShown {
@@ -30,7 +30,7 @@ func Grid(nextSlide func()) (title string, content cview.Primitive) {
 	main := newPrimitive("Main content")
 	sideBar := newPrimitive("Side Bar")
 
-	grid := cview.NewGrid()
+	grid := crtview.NewGrid()
 	grid.SetRows(3, 0, 3)
 	grid.SetColumns(0, -4, 0)
 	grid.SetBorders(true)
@@ -47,7 +47,7 @@ func Grid(nextSlide func()) (title string, content cview.Primitive) {
 	grid.AddItem(main, 1, 1, 1, 1, 0, 100, false)
 	grid.AddItem(sideBar, 1, 2, 1, 1, 0, 100, false)
 
-	modal := cview.NewModal()
+	modal := crtview.NewModal()
 	modal.SetText("Resize the window to see how the grid layout adapts")
 	modal.AddButtons([]string{"Ok"})
 	modal.SetDoneFunc(func(buttonIndex int, buttonLabel string) {

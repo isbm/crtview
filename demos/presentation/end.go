@@ -4,16 +4,16 @@ import (
 	"fmt"
 
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 // End shows the final slide.
-func End(nextSlide func()) (title string, content cview.Primitive) {
-	textView := cview.NewTextView()
+func End(nextSlide func()) (title string, content crtview.Primitive) {
+	textView := crtview.NewTextView()
 	textView.SetDoneFunc(func(key tcell.Key) {
 		nextSlide()
 	})
-	url := "https://gitlab.com/tslocum/cview"
+	url := "https://github.com/isbm/crtview"
 	fmt.Fprint(textView, url)
 	return "End", Center(len(url), 1, textView)
 }

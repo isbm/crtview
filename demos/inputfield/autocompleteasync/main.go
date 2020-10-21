@@ -8,7 +8,7 @@ import (
 	"sync"
 
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 type company struct {
@@ -16,8 +16,8 @@ type company struct {
 }
 
 func main() {
-	app := cview.NewApplication()
-	inputField := cview.NewInputField()
+	app := crtview.NewApplication()
+	inputField := crtview.NewInputField()
 	inputField.SetLabel("Enter a company name: ")
 	inputField.SetFieldWidth(30)
 	inputField.SetDoneFunc(func(key tcell.Key) {
@@ -26,8 +26,8 @@ func main() {
 
 	// Set up autocomplete function.
 	var mutex sync.RWMutex
-	prefixMap := make(map[string][]*cview.ListItem)
-	inputField.SetAutocompleteFunc(func(currentText string) []*cview.ListItem {
+	prefixMap := make(map[string][]*crtview.ListItem)
+	inputField.SetAutocompleteFunc(func(currentText string) []*crtview.ListItem {
 		// Ignore empty text.
 		prefix := strings.TrimSpace(strings.ToLower(currentText))
 		if prefix == "" {
@@ -57,9 +57,9 @@ func main() {
 			if err := dec.Decode(&companies); err != nil {
 				return
 			}
-			entries := make([]*cview.ListItem, 0, len(companies))
+			entries := make([]*crtview.ListItem, 0, len(companies))
 			for _, c := range companies {
-				entries = append(entries, cview.NewListItem(c.Name))
+				entries = append(entries, crtview.NewListItem(c.Name))
 			}
 			mutex.Lock()
 			prefixMap[prefix] = entries

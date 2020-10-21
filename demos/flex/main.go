@@ -2,27 +2,27 @@
 package main
 
 import (
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
-func demoBox(title string) *cview.Box {
-	b := cview.NewBox()
+func demoBox(title string) *crtview.Box {
+	b := crtview.NewBox()
 	b.SetBorder(true)
 	b.SetTitle(title)
 	return b
 }
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	subFlex := cview.NewFlex()
-	subFlex.SetDirection(cview.FlexRow)
+	subFlex := crtview.NewFlex()
+	subFlex.SetDirection(crtview.FlexRow)
 	subFlex.AddItem(demoBox("Top"), 0, 1, false)
 	subFlex.AddItem(demoBox("Middle (3 x height of Top)"), 0, 3, false)
 	subFlex.AddItem(demoBox("Bottom (5 rows)"), 5, 1, false)
 
-	flex := cview.NewFlex()
+	flex := crtview.NewFlex()
 	flex.AddItem(demoBox("Left (1/2 x width of Top)"), 0, 1, false)
 	flex.AddItem(subFlex, 0, 2, false)
 	flex.AddItem(demoBox("Right (20 cols)"), 20, 1, false)

@@ -1,4 +1,4 @@
-package cview
+package crtview
 
 import (
 	"fmt"
@@ -25,7 +25,7 @@ const (
 // The following command displays a primitive p on the screen until Ctrl-C is
 // pressed:
 //
-//   if err := cview.NewApplication().SetRoot(p, true).Run(); err != nil {
+//   if err := crtview.NewApplication().SetRoot(p, true).Run(); err != nil {
 //       panic(err)
 //   }
 type Application struct {
@@ -553,7 +553,7 @@ func (a *Application) Stop() {
 // was called. If false is returned, the application was already suspended,
 // terminal UI mode was not exited, and "f" was not called.
 //
-// BUG(tslocum) First key event is lost when resuming a suspended application.
+// BUG(isbm) First key event is lost when resuming a suspended application.
 //
 // Issue: https://github.com/gdamore/tcell/issues/194
 func (a *Application) Suspend(f func()) bool {

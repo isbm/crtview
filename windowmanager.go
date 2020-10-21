@@ -1,4 +1,4 @@
-package cview
+package crtview
 
 import (
 	"sync"
@@ -8,18 +8,18 @@ import (
 
 // WindowManager provides an area which windows may be added to.
 type WindowManager struct {
-	*Box
-
 	windows []*Window
 
 	sync.RWMutex
+	*Box
 }
 
 // NewWindowManager returns a new window manager.
 func NewWindowManager() *WindowManager {
-	return &WindowManager{
-		Box: NewBox(),
-	}
+	wm := new(WindowManager)
+	wm.Box = NewBox()
+
+	return wm
 }
 
 // Add adds a window to the manager.
@@ -99,25 +99,14 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 			continue
 		}
 
-		// Reposition out of bounds windows
-		margin := 3
-		wx, wy, ww, wh := w.GetRect()
-		ox, oy := wx, wy
-		if wx > x+width-margin {
-			wx = x + width - margin
+		if w.IsCentered() {
+			sw, sh := screen.Size()
+			ww, wh := w.GetSize()
+			w.SetPosition(sw/2-ww/2, sh/2-wh/2)
 		}
-		if wx+ww < x+margin {
-			wx = x - ww + margin
-		}
-		if wy > y+height-margin {
-			wy = y + height - margin
-		}
-		if wy < y {
-			wy = y // No top margin
-		}
-		if wx != ox || wy != oy {
-			w.SetRect(wx, wy, ww, wh)
-		}
+
+		w.SetBorder(true)
+		w.SetRect(x+w.x, y+w.y, w.width, w.height)
 
 		w.Draw(screen)
 	}

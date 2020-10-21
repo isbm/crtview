@@ -1,10 +1,10 @@
 package main
 
-import "gitlab.com/tslocum/cview"
+import "github.com/isbm/crtview"
 
-// Introduction returns a cview.List with the highlights of the cview package.
-func Introduction(nextSlide func()) (title string, content cview.Primitive) {
-	list := cview.NewList()
+// Introduction returns a crtview.List with the highlights of the crtview package.
+func Introduction(nextSlide func()) (title string, content crtview.Primitive) {
+	list := crtview.NewList()
 
 	listText := [][]string{
 		{"A Go package for terminal based UIs", "with a special focus on rich interactive widgets"},
@@ -19,7 +19,7 @@ func Introduction(nextSlide func()) (title string, content cview.Primitive) {
 		list.Clear()
 
 		for i, itemText := range listText {
-			item := cview.NewListItem(itemText[0])
+			item := crtview.NewListItem(itemText[0])
 			item.SetSecondaryText(itemText[1])
 			item.SetShortcut(rune('1' + i))
 			item.SetSelectedFunc(nextSlide)
