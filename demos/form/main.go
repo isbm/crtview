@@ -2,18 +2,18 @@
 package main
 
 import (
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	form := cview.NewForm()
+	form := crtview.NewForm()
 	form.AddDropDownSimple("Title", 0, nil, "Mr.", "Ms.", "Mrs.", "Dr.", "Prof.")
 	form.AddInputField("First name", "", 20, nil, nil)
 	form.AddInputField("Last name", "", 20, nil, nil)
-	addressField := cview.NewInputField()
+	addressField := crtview.NewInputField()
 	addressField.SetLabel("Address")
 	addressField.SetFieldWidth(30)
 	addressField.SetFieldNote("Your complete address")
@@ -26,7 +26,7 @@ func main() {
 	})
 	form.SetBorder(true)
 	form.SetTitle("Enter some data")
-	form.SetTitleAlign(cview.AlignLeft)
+	form.SetTitleAlign(crtview.AlignLeft)
 
 	app.SetRoot(form, true)
 	if err := app.Run(); err != nil {

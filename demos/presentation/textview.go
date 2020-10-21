@@ -6,12 +6,12 @@ import (
 	"time"
 
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 const textView1 = `[green]func[white] [yellow]main[white]() {
-	app := cview.[yellow]NewApplication[white]()
-    textView := cview.[yellow]NewTextView[white]().
+	app := crtview.[yellow]NewApplication[white]()
+    textView := crtview.[yellow]NewTextView[white]().
         [yellow]SetTextColor[white](tcell.ColorYellow.TrueColor()).
         [yellow]SetScrollable[white](false).
         [yellow]SetChangedFunc[white]([yellow]func[white]() {
@@ -30,8 +30,8 @@ const textView1 = `[green]func[white] [yellow]main[white]() {
 }`
 
 // TextView1 demonstrates the basic text view.
-func TextView1(nextSlide func()) (title string, content cview.Primitive) {
-	textView := cview.NewTextView()
+func TextView1(nextSlide func()) (title string, content crtview.Primitive) {
+	textView := crtview.NewTextView()
 	textView.SetTextColor(tcell.ColorYellow.TrueColor())
 	textView.SetScrollable(false)
 	textView.SetDoneFunc(func(key tcell.Key) {
@@ -66,11 +66,11 @@ const textView2 = `[green]package[white] main
     [red]"strconv"[white]
 
     [red]"github.com/gdamore/tcell/v2"[white]
-    [red]"gitlab.com/tslocum/cview"[white]
+    [red]"github.com/isbm/crtview"[white]
 )
 
 [green]func[white] [yellow]main[white]() {
-    ["0"]textView[""] := cview.[yellow]NewTextView[white]()
+    ["0"]textView[""] := crtview.[yellow]NewTextView[white]()
     ["1"]textView[""].[yellow]SetDynamicColors[white](true).
         [yellow]SetWrap[white](false).
         [yellow]SetRegions[white](true).
@@ -102,20 +102,20 @@ const textView2 = `[green]package[white] main
             }
         })
     fmt.[yellow]Fprint[white](["7"]textView[""], content)
-    cview.[yellow]NewApplication[white]().
+    crtview.[yellow]NewApplication[white]().
         [yellow]SetRoot[white](["8"]textView[""], true).
         [yellow]Run[white]()
 }`
 
 // TextView2 demonstrates the extended text view.
-func TextView2(nextSlide func()) (title string, content cview.Primitive) {
-	codeView := cview.NewTextView()
+func TextView2(nextSlide func()) (title string, content crtview.Primitive) {
+	codeView := crtview.NewTextView()
 	codeView.SetWrap(false)
 	fmt.Fprint(codeView, textView2)
 	codeView.SetBorder(true)
 	codeView.SetTitle("Buffer content")
 
-	textView := cview.NewTextView()
+	textView := crtview.NewTextView()
 	textView.SetDynamicColors(true)
 	textView.SetWrap(false)
 	textView.SetRegions(true)
@@ -154,7 +154,7 @@ func TextView2(nextSlide func()) (title string, content cview.Primitive) {
 	textView.SetBorder(true)
 	textView.SetTitle("TextView output")
 
-	flex := cview.NewFlex()
+	flex := crtview.NewFlex()
 	flex.AddItem(textView, 0, 1, true)
 	flex.AddItem(codeView, 0, 1, false)
 

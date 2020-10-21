@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 const corporate = `Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
@@ -20,10 +20,10 @@ Capitalize on low hanging fruit to identify a ballpark value added activity to b
 [yellow]Press Enter, then Tab/Backtab for word selections`
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	textView := cview.NewTextView()
+	textView := crtview.NewTextView()
 	textView.SetDynamicColors(true)
 	textView.SetRegions(true)
 	textView.SetWordWrap(true)

@@ -1,20 +1,20 @@
 // Demo code for the DropDown primitive.
 package main
 
-import "gitlab.com/tslocum/cview"
+import "github.com/isbm/crtview"
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	dropdown := cview.NewDropDown()
+	dropdown := crtview.NewDropDown()
 	dropdown.SetLabel("Select an option (hit Enter): ")
 	dropdown.SetOptions(nil,
-		cview.NewDropDownOption("First"),
-		cview.NewDropDownOption("Second"),
-		cview.NewDropDownOption("Third"),
-		cview.NewDropDownOption("Fourth"),
-		cview.NewDropDownOption("Fifth"))
+		crtview.NewDropDownOption("First"),
+		crtview.NewDropDownOption("Second"),
+		crtview.NewDropDownOption("Third"),
+		crtview.NewDropDownOption("Fourth"),
+		crtview.NewDropDownOption("Fifth"))
 
 	app.SetRoot(dropdown, true)
 	if err := app.Run(); err != nil {

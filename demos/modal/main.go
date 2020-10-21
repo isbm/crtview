@@ -2,14 +2,14 @@
 package main
 
 import (
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	modal := cview.NewModal()
+	modal := crtview.NewModal()
 	modal.SetText("Do you want to quit the application?")
 	modal.AddButtons([]string{"Quit", "Cancel"})
 	modal.SetDoneFunc(func(buttonIndex int, buttonLabel string) {

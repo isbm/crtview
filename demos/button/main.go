@@ -1,13 +1,13 @@
 // Demo code for the Button primitive.
 package main
 
-import "gitlab.com/tslocum/cview"
+import "github.com/isbm/crtview"
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	button := cview.NewButton("Hit Enter to close")
+	button := crtview.NewButton("Hit Enter to close")
 	button.SetBorder(true)
 	button.SetRect(0, 0, 22, 3)
 	button.SetSelectedFunc(func() {

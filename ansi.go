@@ -1,4 +1,4 @@
-package cview
+package crtview
 
 import (
 	"bytes"
@@ -16,7 +16,7 @@ const (
 	ansiControlSequence
 )
 
-// ansi is a io.Writer which translates ANSI escape codes into cview color
+// ansi is a io.Writer which translates ANSI escape codes into crtview color
 // tags.
 type ansi struct {
 	io.Writer
@@ -31,7 +31,7 @@ type ansi struct {
 }
 
 // ANSIWriter returns an io.Writer which translates any ANSI escape codes
-// written to it into cview color tags. Other escape codes don't have an effect
+// written to it into crtview color tags. Other escape codes don't have an effect
 // and are simply removed. The translated text is written to the provided
 // writer.
 func ANSIWriter(writer io.Writer) io.Writer {
@@ -249,7 +249,7 @@ func (a *ansi) Write(text []byte) (int, error) {
 }
 
 // TranslateANSI replaces ANSI escape sequences found in the provided string
-// with cview's color tags and returns the resulting string.
+// with crtview's color tags and returns the resulting string.
 func TranslateANSI(text string) string {
 	var buffer bytes.Buffer
 	writer := ANSIWriter(&buffer)

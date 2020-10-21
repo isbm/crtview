@@ -1,4 +1,4 @@
-package cview
+package crtview
 
 import (
 	"sync"
@@ -8,18 +8,18 @@ import (
 
 // WindowManager provides an area which windows may be added to.
 type WindowManager struct {
-	*Box
-
 	windows []*Window
 
 	sync.RWMutex
+	*Box
 }
 
 // NewWindowManager returns a new window manager.
 func NewWindowManager() *WindowManager {
-	return &WindowManager{
-		Box: NewBox(),
-	}
+	wm := new(WindowManager)
+	wm.Box = NewBox()
+
+	return wm
 }
 
 // Add adds a window to the manager.

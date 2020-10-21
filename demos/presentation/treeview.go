@@ -4,42 +4,42 @@ import (
 	"strings"
 
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 const treeAllCode = `[green]package[white] main
 
-[green]import[white] [red]"gitlab.com/tslocum/cview"[white]
+[green]import[white] [red]"github.com/isbm/crtview"[white]
 
 [green]func[white] [yellow]main[white]() {
 	$$$
 
-	root := cview.[yellow]NewTreeNode[white]([red]"Root"[white]).
-		[yellow]AddChild[white](cview.[yellow]NewTreeNode[white]([red]"First child"[white]).
-			[yellow]AddChild[white](cview.[yellow]NewTreeNode[white]([red]"Grandchild A"[white])).
-			[yellow]AddChild[white](cview.[yellow]NewTreeNode[white]([red]"Grandchild B"[white]))).
-		[yellow]AddChild[white](cview.[yellow]NewTreeNode[white]([red]"Second child"[white]).
-			[yellow]AddChild[white](cview.[yellow]NewTreeNode[white]([red]"Grandchild C"[white])).
-			[yellow]AddChild[white](cview.[yellow]NewTreeNode[white]([red]"Grandchild D"[white]))).
-		[yellow]AddChild[white](cview.[yellow]NewTreeNode[white]([red]"Third child"[white]))
+	root := crtview.[yellow]NewTreeNode[white]([red]"Root"[white]).
+		[yellow]AddChild[white](crtview.[yellow]NewTreeNode[white]([red]"First child"[white]).
+			[yellow]AddChild[white](crtview.[yellow]NewTreeNode[white]([red]"Grandchild A"[white])).
+			[yellow]AddChild[white](crtview.[yellow]NewTreeNode[white]([red]"Grandchild B"[white]))).
+		[yellow]AddChild[white](crtview.[yellow]NewTreeNode[white]([red]"Second child"[white]).
+			[yellow]AddChild[white](crtview.[yellow]NewTreeNode[white]([red]"Grandchild C"[white])).
+			[yellow]AddChild[white](crtview.[yellow]NewTreeNode[white]([red]"Grandchild D"[white]))).
+		[yellow]AddChild[white](crtview.[yellow]NewTreeNode[white]([red]"Third child"[white]))
 
 	tree.[yellow]SetRoot[white](root).
 		[yellow]SetCurrentNode[white](root)
 
-	cview.[yellow]NewApplication[white]().
+	crtview.[yellow]NewApplication[white]().
 		[yellow]SetRoot[white](tree, true).
 		[yellow]Run[white]()
 }`
 
-const treeBasicCode = `tree := cview.[yellow]NewTreeView[white]()`
+const treeBasicCode = `tree := crtview.[yellow]NewTreeView[white]()`
 
-const treeTopLevelCode = `tree := cview.[yellow]NewTreeView[white]().
+const treeTopLevelCode = `tree := crtview.[yellow]NewTreeView[white]().
 		[yellow]SetTopLevel[white]([red]1[white])`
 
-const treeAlignCode = `tree := cview.[yellow]NewTreeView[white]().
+const treeAlignCode = `tree := crtview.[yellow]NewTreeView[white]().
 		[yellow]SetAlign[white](true)`
 
-const treePrefixCode = `tree := cview.[yellow]NewTreeView[white]().
+const treePrefixCode = `tree := crtview.[yellow]NewTreeView[white]().
 		[yellow]SetGraphics[white](false).
 		[yellow]SetTopLevel[white]([red]1[white]).
 		[yellow]SetPrefixes[white]([][green]string[white]{
@@ -56,9 +56,9 @@ type node struct {
 }
 
 var (
-	tree          = cview.NewTreeView()
+	tree          = crtview.NewTreeView()
 	treeNextSlide func()
-	treeCode      = cview.NewTextView()
+	treeCode      = crtview.NewTextView()
 )
 
 var rootNode = &node{
@@ -118,15 +118,15 @@ var rootNode = &node{
 	}}
 
 // TreeView demonstrates the tree view.
-func TreeView(nextSlide func()) (title string, content cview.Primitive) {
+func TreeView(nextSlide func()) (title string, content crtview.Primitive) {
 	treeNextSlide = nextSlide
 	tree.SetBorder(true)
 	tree.SetTitle("TreeView")
 
 	// Add nodes.
-	var add func(target *node) *cview.TreeNode
-	add = func(target *node) *cview.TreeNode {
-		node := cview.NewTreeNode(target.text)
+	var add func(target *node) *crtview.TreeNode
+	add = func(target *node) *crtview.TreeNode {
+		node := crtview.NewTreeNode(target.text)
 		node.SetSelectable(target.expand || target.selected != nil)
 		node.SetExpanded(target == rootNode)
 		node.SetReference(target)
@@ -143,7 +143,7 @@ func TreeView(nextSlide func()) (title string, content cview.Primitive) {
 	root := add(rootNode)
 	tree.SetRoot(root)
 	tree.SetCurrentNode(root)
-	tree.SetSelectedFunc(func(n *cview.TreeNode) {
+	tree.SetSelectedFunc(func(n *crtview.TreeNode) {
 		original := n.GetReference().(*node)
 		if original.expand {
 			n.SetExpanded(!n.IsExpanded())
@@ -157,7 +157,7 @@ func TreeView(nextSlide func()) (title string, content cview.Primitive) {
 	treeCode.SetText(strings.Replace(treeAllCode, "$$$", treeBasicCode, -1))
 	treeCode.SetBorderPadding(1, 1, 2, 0)
 
-	flex := cview.NewFlex()
+	flex := crtview.NewFlex()
 	flex.AddItem(tree, 0, 1, true)
 	flex.AddItem(treeCode, codeWidth, 1, false)
 

@@ -5,12 +5,12 @@ import (
 	"fmt"
 
 	"github.com/gdamore/tcell/v2"
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 // RadioButtons implements a simple primitive for radio button selections.
 type RadioButtons struct {
-	*cview.Box
+	*crtview.Box
 	options       []string
 	currentOption int
 }
@@ -18,7 +18,7 @@ type RadioButtons struct {
 // NewRadioButtons returns a new radio button primitive.
 func NewRadioButtons(options []string) *RadioButtons {
 	return &RadioButtons{
-		Box:     cview.NewBox(),
+		Box:     crtview.NewBox(),
 		options: options,
 	}
 }
@@ -37,13 +37,13 @@ func (r *RadioButtons) Draw(screen tcell.Screen) {
 			radioButton = "\u25c9" // Checked.
 		}
 		line := fmt.Sprintf(`%s[white]  %s`, radioButton, option)
-		cview.Print(screen, []byte(line), x, y+index, width, cview.AlignLeft, tcell.ColorYellow.TrueColor())
+		crtview.Print(screen, []byte(line), x, y+index, width, crtview.AlignLeft, tcell.ColorYellow.TrueColor())
 	}
 }
 
 // InputHandler returns the handler for this primitive.
-func (r *RadioButtons) InputHandler() func(event *tcell.EventKey, setFocus func(p cview.Primitive)) {
-	return r.WrapInputHandler(func(event *tcell.EventKey, setFocus func(p cview.Primitive)) {
+func (r *RadioButtons) InputHandler() func(event *tcell.EventKey, setFocus func(p crtview.Primitive)) {
+	return r.WrapInputHandler(func(event *tcell.EventKey, setFocus func(p crtview.Primitive)) {
 		switch event.Key() {
 		case tcell.KeyUp:
 			r.currentOption--
@@ -60,7 +60,7 @@ func (r *RadioButtons) InputHandler() func(event *tcell.EventKey, setFocus func(
 }
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 
 	radioButtons := NewRadioButtons([]string{"Lions", "Elephants", "Giraffes"})
 	radioButtons.SetBorder(true)

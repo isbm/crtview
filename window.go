@@ -1,4 +1,4 @@
-package cview
+package crtview
 
 import (
 	"sync"
@@ -16,6 +16,7 @@ type Window struct {
 	x, y          int
 	width, height int
 	fullscreen    bool
+	centered      bool
 
 	dragX, dragY   int
 	dragWX, dragWY int
@@ -60,13 +61,41 @@ func (w *Window) SetFullscreen(fullscreen bool) {
 	w.fullscreen = fullscreen
 }
 
+// SetPositionCenter sets the flag to the Window Manager that the current window should be displayed centered.
+// If SetPosition is called, this flag is reset to false.
+func (w *Window) SetPositionCenter() *Window {
+	w.centered = true
+	return w
+}
+
+// SetSize sets the size of the window
+func (w *Window) SetSize(width int, height int) *Window {
+	w.width, w.height = width, height
+	return w
+}
+
+// SetPosition sets the window position x/y
+func (w *Window) SetPosition(x int, y int) *Window {
+	w.x, w.y = x, y
+	return w
+}
+
+// GetSize gets the size of the window
+func (w *Window) GetSize() (int, int) {
+	return w.width, w.height
+}
+
+// IsCentered returns true if window is meant to be displayed center
+func (w *Window) IsCentered() bool {
+	return w.centered
+}
+
 // Focus is called when this primitive receives focus.
 func (w *Window) Focus(delegate func(p Primitive)) {
 	w.Lock()
 	defer w.Unlock()
 
 	w.Box.Focus(delegate)
-
 	w.primitive.Focus(delegate)
 }
 
@@ -76,7 +105,6 @@ func (w *Window) Blur() {
 	defer w.Unlock()
 
 	w.Box.Blur()
-
 	w.primitive.Blur()
 }
 

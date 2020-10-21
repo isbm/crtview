@@ -1,5 +1,5 @@
 /*
-Package cview implements rich widgets for terminal based user interfaces.
+Package crtview implements rich widgets for terminal based user interfaces.
 
 See the demos folder and the example application provided with the
 NewApplication documentation for usage examples.
@@ -191,15 +191,15 @@ containing the text "Hello, world!":
   package main
 
   import (
-    "gitlab.com/tslocum/cview"
+    "github.com/isbm/crtview"
   )
 
   func main() {
-    tv := cview.NewTextView()
+    tv := crtview.NewTextView()
     tv.SetText("Hello, world!").
        SetBorder(true).
        SetTitle("Greetings")
-    if err := cview.NewApplication().SetRoot(tv, true).Run(); err != nil {
+    if err := crtview.NewApplication().SetRoot(tv, true).Run(); err != nil {
       panic(err)
     }
   }
@@ -219,4 +219,4 @@ Demos
 The "demos" subdirectory contains a demo for each widget, as well as a
 presentation which gives an overview of the widgets and how they may be used.
 */
-package cview
+package crtview

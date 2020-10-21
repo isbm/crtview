@@ -4,24 +4,24 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	list := cview.NewList()
+	list := crtview.NewList()
 
 	reset := func() {
 		list.Clear()
 		for i := 0; i < 4; i++ {
-			item := cview.NewListItem(fmt.Sprintf("List item %d", i+1))
+			item := crtview.NewListItem(fmt.Sprintf("List item %d", i+1))
 			item.SetSecondaryText("Some explanatory text")
 			item.SetShortcut(rune('a' + i))
 			list.AddItem(item)
 		}
-		quitItem := cview.NewListItem("Quit")
+		quitItem := crtview.NewListItem("Quit")
 		quitItem.SetSecondaryText("Press to exit")
 		quitItem.SetShortcut('q')
 		quitItem.SetSelectedFunc(func() {

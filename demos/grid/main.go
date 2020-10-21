@@ -2,16 +2,16 @@
 package main
 
 import (
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	newPrimitive := func(text string) cview.Primitive {
-		tv := cview.NewTextView()
-		tv.SetTextAlign(cview.AlignCenter)
+	newPrimitive := func(text string) crtview.Primitive {
+		tv := crtview.NewTextView()
+		tv.SetTextAlign(crtview.AlignCenter)
 		tv.SetText(text)
 		return tv
 	}
@@ -19,7 +19,7 @@ func main() {
 	main := newPrimitive("Main content")
 	sideBar := newPrimitive("Side Bar")
 
-	grid := cview.NewGrid()
+	grid := crtview.NewGrid()
 	grid.SetRows(3, 0, 3)
 	grid.SetColumns(30, 0, 30)
 	grid.SetBorders(true)

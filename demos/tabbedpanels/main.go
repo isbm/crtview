@@ -4,19 +4,19 @@ package main
 import (
 	"fmt"
 
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 const panelCount = 5
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	app.EnableMouse(true)
 
-	panels := cview.NewTabbedPanels()
+	panels := crtview.NewTabbedPanels()
 	for panel := 0; panel < panelCount; panel++ {
 		func(panel int) {
-			form := cview.NewForm()
+			form := crtview.NewForm()
 			form.SetBorder(true)
 			form.SetTitle(fmt.Sprintf("This is tab %d. Choose another tab.", panel+1))
 			form.AddButton("Next", func() {
