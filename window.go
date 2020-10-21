@@ -60,7 +60,16 @@ func (w *Window) SetFullscreen(fullscreen bool) {
 	w.Lock()
 	defer w.Unlock()
 
+	if w.fullscreen == fullscreen {
+		return
+	}
+
 	w.fullscreen = fullscreen
+	if w.fullscreen {
+		w.normalX, w.normalY, w.normalW, w.normalH = w.GetRect()
+	} else {
+		w.SetRect(w.normalX, w.normalY, w.normalW, w.normalH)
+	}
 }
 
 // SetPositionCenter sets the flag to the Window Manager that the current window should be displayed centered.

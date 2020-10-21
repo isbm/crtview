@@ -27,6 +27,10 @@ func (wm *WindowManager) Add(w ...*Window) {
 	wm.Lock()
 	defer wm.Unlock()
 
+	for _, window := range w {
+		window.SetBorder(true)
+	}
+
 	wm.windows = append(wm.windows, w...)
 }
 
@@ -81,11 +85,10 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 			continue
 		}
 
-		w.SetBorder(false)
-		w.SetRect(x, y+1, width, height-1)
-		w.Draw(screen)
-
 		hasFullScreen = true
+		w.SetRect(x-1, y, width+2, height+1)
+
+		w.Draw(screen)
 	}
 	if hasFullScreen {
 		return
