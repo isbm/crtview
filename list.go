@@ -1000,8 +1000,6 @@ func (l *List) Draw(screen tcell.Screen) {
 	if hasFocus && l.ContextMenu.open {
 		ctx := l.ContextMenuList()
 
-		x, y, width, height = l.GetInnerRect()
-
 		// What's the longest option text?
 		maxWidth := 0
 		for _, option := range ctx.items {
