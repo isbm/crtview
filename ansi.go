@@ -253,6 +253,8 @@ func (a *ansi) Write(text []byte) (int, error) {
 func TranslateANSI(text string) string {
 	var buffer bytes.Buffer
 	writer := ANSIWriter(&buffer)
-	writer.Write([]byte(text))
+	if _, err := writer.Write([]byte(text)); err != nil {
+		panic("Error writing ANSI buffer: " + err.Error())
+	}
 	return buffer.String()
 }
