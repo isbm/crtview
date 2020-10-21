@@ -168,8 +168,8 @@ func (b *Box) SetRect(x, y, width, height int) {
 	b.innerX = -1 // Mark inner rect as uninitialized.
 }
 
-// SetVisible sets the flag indicating whether or not the box is visible.
-func (b *Box) SetVisible(v bool) {
+// Internal method, sets the flag indicating whether or not the box is visible.
+func (b *Box) setVisible(v bool) {
 	b.l.Lock()
 	defer b.l.Unlock()
 
