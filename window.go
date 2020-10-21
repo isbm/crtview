@@ -37,19 +37,21 @@ func NewWindow(primitive Primitive) *Window {
 }
 
 // SetPosition sets the position of the window.
-func (w *Window) SetPosition(x, y int) {
+func (w *Window) SetPosition(x, y int) *Window {
 	w.Lock()
 	defer w.Unlock()
 
 	w.x, w.y = x, y
+	return w
 }
 
 // SetSize sets the size of the window.
-func (w *Window) SetSize(width, height int) {
+func (w *Window) SetSize(width, height int) *Window {
 	w.Lock()
 	defer w.Unlock()
 
 	w.width, w.height = width, height
+	return w
 }
 
 // SetFullscreen sets the flag indicating whether or not the the window should
@@ -65,18 +67,6 @@ func (w *Window) SetFullscreen(fullscreen bool) {
 // If SetPosition is called, this flag is reset to false.
 func (w *Window) SetPositionCenter() *Window {
 	w.centered = true
-	return w
-}
-
-// SetSize sets the size of the window
-func (w *Window) SetSize(width int, height int) *Window {
-	w.width, w.height = width, height
-	return w
-}
-
-// SetPosition sets the window position x/y
-func (w *Window) SetPosition(x int, y int) *Window {
-	w.x, w.y = x, y
 	return w
 }
 

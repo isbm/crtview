@@ -95,8 +95,16 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 		if !w.GetVisible() {
 			continue
 		}
+
+		if w.IsCentered() {
+			sw, sh := screen.Size()
+			ww, wh := w.GetSize()
+			w.SetPosition(sw/2-ww/2, sh/2-wh/2)
+		}
+
 		w.SetBorder(true)
 		w.SetRect(x+w.x, x+w.y, w.width, w.height)
+
 		w.Draw(screen)
 	}
 }
