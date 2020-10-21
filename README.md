@@ -1,23 +1,9 @@
-# cview - Terminal-based user interface toolkit
-[![GoDoc](https://gitlab.com/tslocum/godoc-static/-/raw/master/badge.svg)](https://docs.rocketnine.space/gitlab.com/tslocum/cview)
-[![CI status](https://gitlab.com/tslocum/cview/badges/master/pipeline.svg)](https://gitlab.com/tslocum/cview/commits/master)
-[![Donate](https://img.shields.io/liberapay/receives/rocketnine.space.svg?logo=liberapay)](https://liberapay.com/rocketnine.space)
+# crtview - Terminal-based user interface toolkit
 
-This package is a fork of [tview](https://github.com/rivo/tview).
-See [FORK.md](https://gitlab.com/tslocum/cview/blob/master/FORK.md) for more information.
-
-**Warning:** Breaking changes may be added to cview without bumping its major
-version. The largest changes have been made. Smaller breaking changes may
-continue to be made where backwards compatibility is not possible. Changes are
-listed in [FORK.md](https://gitlab.com/tslocum/cview/blob/master/FORK.md).
-
-## Demo
-
-`ssh cview.rocketnine.space -p 20000`
-
-[![Recording of presentation demo](https://gitlab.com/tslocum/cview/-/raw/master/cview.gif)](https://gitlab.com/tslocum/cview/tree/master/demos/presentation)
-
-Additional examples are listed on [pkg.go.dev](https://pkg.go.dev/gitlab.com/tslocum/cview?tab=importedby).
+This project is a fork of [cview](https://gitlab.com/tslocum/cview),
+which is also fork of original
+[tview](https://github.com/rivo/tview). :-) See
+``docs/about-crtview.md`` for more details.
 
 ## Features
 
@@ -36,12 +22,10 @@ Available widgets:
 
 Widgets may be customized and extended to suit any application.
 
-[Mouse support](https://docs.rocketnine.space/gitlab.com/tslocum/cview#hdr-Mouse_Support) is available.
-
 ## Installation
 
 ```bash
-go get gitlab.com/tslocum/cview
+go get github.com/isbm/crtview
 ```
 
 ## Hello World
@@ -52,16 +36,16 @@ This basic example creates a TextView titled "Hello, World!" and displays it in 
 package main
 
 import (
-	"gitlab.com/tslocum/cview"
+	"github.com/isbm/crtview"
 )
 
 func main() {
-	app := cview.NewApplication()
+	app := crtview.NewApplication()
 	
-	box := cview.NewTextView()
-	box.SetBorder(true)
-	box.SetTitle("Hello, world!")
-	box.SetText("Lorem ipsum dolor sit amet")
+	box := crtview.NewTextView()
+		.SetBorder(true)
+		.SetTitle("Hello, world!")
+		.SetText("Here is some meaning-less text for your app.")
 	
 	app.SetRoot(box, true)
 	if err := app.Run(); err != nil {
@@ -69,25 +53,3 @@ func main() {
 	}
 }
 ```
-
-Examples are available via [godoc](https://docs.rocketnine.space/gitlab.com/tslocum/cview#pkg-examples)
-and in the "demos" subdirectory.
-
-For a presentation highlighting the features of this package, compile and run
-the program in the "demos/presentation" subdirectory.
-
-## Documentation
-
-Package documentation is available via [godoc](https://docs.rocketnine.space/gitlab.com/tslocum/cview).
-
-An [introduction tutorial](https://rocketnine.space/post/tview-and-you/) is also available.
-
-## Dependencies
-
-This package is based on [github.com/gdamore/tcell](https://github.com/gdamore/tcell)
-(and its dependencies) and [github.com/rivo/uniseg](https://github.com/rivo/uniseg).
-
-## Support
-
-[CONTRIBUTING.md](https://gitlab.com/tslocum/cview/blob/master/CONTRIBUTING.md) describes how to share
-issues, suggestions and patches (pull requests).
