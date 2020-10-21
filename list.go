@@ -447,7 +447,6 @@ func (l *List) ShowSecondaryText(show bool) {
 	defer l.Unlock()
 
 	l.showSecondaryText = show
-	return
 }
 
 // SetScrollBarVisibility specifies the display of the scroll bar.
