@@ -42,6 +42,7 @@ func (w *Window) SetPosition(x, y int) *Window {
 	defer w.Unlock()
 
 	w.x, w.y = x, y
+	w.centered = false
 	return w
 }
 
@@ -68,6 +69,18 @@ func (w *Window) SetFullscreen(fullscreen bool) *Window {
 // If SetPosition is called, this flag is reset to false.
 func (w *Window) SetPositionCenter() *Window {
 	w.centered = true
+	return w
+}
+
+// Show window
+func (w *Window) Show() *Window {
+	w.Box.Show()
+	return w
+}
+
+// Hide window
+func (w *Window) Hide() *Window {
+	w.Box.Hide()
 	return w
 }
 
