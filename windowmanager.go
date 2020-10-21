@@ -111,7 +111,7 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 		w.Draw(screen)
 
 		if w.GetStatus() != "" {
-			Print(screen, []byte(w.GetStatus()), w.x+1, w.y+w.height-1, w.width-2, w.GetStatusBarAlign(), tcell.ColorRed)
+			Print(screen, []byte(w.GetStatus()), w.x+1, w.y+w.height-1, w.width-2, w.GetStatusBarAlign(), w.GetStatusBarColor())
 		}
 	}
 }

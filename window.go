@@ -18,6 +18,7 @@ type Window struct {
 	centered       bool
 	statusbar      string
 	statusbarAlign int
+	statusbarColor tcell.Color
 
 	dragX, dragY   int
 	dragWX, dragWY int
@@ -58,6 +59,20 @@ func (w *Window) SetStatusBarAlign(align int) *Window {
 
 	w.statusbarAlign = align
 	return w
+}
+
+// SetStatusBarColor for the text. However, in case the string is dynamic, this is overridden.
+func (w *Window) SetStatusBarColor(color tcell.Color) *Window {
+	w.Lock()
+	defer w.Unlock()
+
+	w.statusbarColor = color
+	return w
+}
+
+// GetStatusBarColor for the text.
+func (w *Window) GetStatusBarColor() tcell.Color {
+	return w.statusbarColor
 }
 
 // GetStatusBarAlign current alignment
