@@ -102,13 +102,17 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 		if w.IsCentered() {
 			sw, sh := screen.Size()
 			ww, wh := w.GetSize()
-			w.SetPosition(sw/2-ww/2, sh/2-wh/2)
+			w.x, w.y = sw/2-ww/2, sh/2-wh/2
 		}
 
 		w.SetBorder(true)
 		w.SetRect(x+w.x, y+w.y, w.width, w.height)
 
 		w.Draw(screen)
+
+		if w.GetStatus() != "" {
+			Print(screen, []byte(w.GetStatus()), w.x+1, w.y+w.height-1, w.width-2, w.GetStatusBarAlign(), tcell.ColorRed)
+		}
 	}
 }
 
