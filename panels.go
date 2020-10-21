@@ -333,7 +333,7 @@ func (p *Panels) Focus(delegate func(p Primitive)) {
 
 // Draw draws this primitive onto the screen.
 func (p *Panels) Draw(screen tcell.Screen) {
-	if !p.GetVisible() {
+	if !p.IsVisible() {
 		return
 	}
 

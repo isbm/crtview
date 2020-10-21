@@ -804,7 +804,7 @@ func (t *Table) Sort(column int, descending bool) {
 
 // Draw draws this primitive onto the screen.
 func (t *Table) Draw(screen tcell.Screen) {
-	if !t.GetVisible() {
+	if !t.IsVisible() {
 		return
 	}
 

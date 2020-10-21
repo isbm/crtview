@@ -16,8 +16,8 @@ type Primitive interface {
 	// SetRect sets a new position of the primitive.
 	SetRect(x, y, width, height int)
 
-	// GetVisible returns whether or not the primitive is visible.
-	GetVisible() bool
+	// IsVisible returns whether or not the primitive is visible.
+	IsVisible() bool
 
 	// SetVisible sets whether or not the primitive is visible.
 	SetVisible(v bool)

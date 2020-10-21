@@ -853,7 +853,7 @@ func (l *List) updateOffset() {
 
 // Draw draws this primitive onto the screen.
 func (l *List) Draw(screen tcell.Screen) {
-	if !l.GetVisible() {
+	if !l.IsVisible() {
 		return
 	}
 

@@ -155,7 +155,7 @@ func (f *Flex) ResizeItem(p Primitive, fixedSize, proportion int) {
 
 // Draw draws this primitive onto the screen.
 func (f *Flex) Draw(screen tcell.Screen) {
-	if !f.GetVisible() {
+	if !f.IsVisible() {
 		return
 	}
 

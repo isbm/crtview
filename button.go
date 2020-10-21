@@ -112,7 +112,7 @@ func (b *Button) SetBlurFunc(handler func(key tcell.Key)) {
 
 // Draw draws this primitive onto the screen.
 func (b *Button) Draw(screen tcell.Screen) {
-	if !b.GetVisible() {
+	if !b.IsVisible() {
 		return
 	}
 

@@ -537,7 +537,7 @@ func (i *InputField) SetFinishedFunc(handler func(key tcell.Key)) {
 
 // Draw draws this primitive onto the screen.
 func (i *InputField) Draw(screen tcell.Screen) {
-	if !i.GetVisible() {
+	if !i.IsVisible() {
 		return
 	}
 

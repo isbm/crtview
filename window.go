@@ -114,7 +114,7 @@ func (w *Window) HasFocus() bool {
 
 // Draw draws this primitive onto the screen.
 func (w *Window) Draw(screen tcell.Screen) {
-	if !w.GetVisible() {
+	if !w.IsVisible() {
 		return
 	}
 

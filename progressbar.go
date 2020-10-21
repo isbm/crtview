@@ -150,7 +150,7 @@ func (p *ProgressBar) Complete() bool {
 
 // Draw draws this primitive onto the screen.
 func (p *ProgressBar) Draw(screen tcell.Screen) {
-	if !p.GetVisible() {
+	if !p.IsVisible() {
 		return
 	}
 
