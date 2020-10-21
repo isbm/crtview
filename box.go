@@ -176,8 +176,18 @@ func (b *Box) setVisible(v bool) {
 	b.visible = v
 }
 
-// GetVisible returns a value indicating whether or not the box is visible.
-func (b *Box) GetVisible() bool {
+// Show box
+func (b *Box) Show() *Box {
+	b.setVisible(true)
+	return b
+}
+
+// Hide box
+func (b *Box) Hide() *Box {
+	b.setVisible(false)
+	return b
+}
+
 // IsVisible returns a value indicating whether or not the box is visible.
 func (b *Box) IsVisible() bool {
 	b.l.RLock()
