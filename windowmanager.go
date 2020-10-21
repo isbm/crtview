@@ -103,7 +103,7 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 		}
 
 		w.SetBorder(true)
-		w.SetRect(x+w.x, x+w.y, w.width, w.height)
+		w.SetRect(x+w.x, y+w.y, w.width, w.height)
 
 		w.Draw(screen)
 	}
