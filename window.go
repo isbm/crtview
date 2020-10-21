@@ -56,20 +56,12 @@ func (w *Window) SetSize(width, height int) *Window {
 
 // SetFullscreen sets the flag indicating whether or not the the window should
 // be drawn fullscreen.
-func (w *Window) SetFullscreen(fullscreen bool) {
+func (w *Window) SetFullscreen(fullscreen bool) *Window {
 	w.Lock()
 	defer w.Unlock()
 
-	if w.fullscreen == fullscreen {
-		return
-	}
-
 	w.fullscreen = fullscreen
-	if w.fullscreen {
-		w.normalX, w.normalY, w.normalW, w.normalH = w.GetRect()
-	} else {
-		w.SetRect(w.normalX, w.normalY, w.normalW, w.normalH)
-	}
+	return w
 }
 
 // SetPositionCenter sets the flag to the Window Manager that the current window should be displayed centered.
