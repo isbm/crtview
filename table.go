@@ -63,16 +63,18 @@ func NewTableCell(text string) *TableCell {
 }
 
 // SetBytes sets the cell's text.
-func (c *TableCell) SetBytes(text []byte) {
+func (c *TableCell) SetBytes(text []byte) *TableCell {
 	c.Lock()
 	defer c.Unlock()
 
 	c.Text = text
+	return c
 }
 
 // SetText sets the cell's text.
-func (c *TableCell) SetText(text string) {
+func (c *TableCell) SetText(text string) *TableCell {
 	c.SetBytes([]byte(text))
+	return c
 }
 
 // GetBytes returns the cell's text.
@@ -90,21 +92,23 @@ func (c *TableCell) GetText() string {
 
 // SetAlign sets the cell's text alignment, one of AlignLeft, AlignCenter, or
 // AlignRight.
-func (c *TableCell) SetAlign(align int) {
+func (c *TableCell) SetAlign(align int) *TableCell {
 	c.Lock()
 	defer c.Unlock()
 
 	c.Align = align
+	return c
 }
 
 // SetMaxWidth sets maximum width of the cell in screen space. This is used to
 // give a column a maximum width. Any cell text whose screen width exceeds this
 // width is cut off. Set to 0 if there is no maximum width.
-func (c *TableCell) SetMaxWidth(maxWidth int) {
+func (c *TableCell) SetMaxWidth(maxWidth int) *TableCell {
 	c.Lock()
 	defer c.Unlock()
 
 	c.MaxWidth = maxWidth
+	return c
 }
 
 // SetExpansion sets the value by which the column of this cell expands if the
@@ -120,7 +124,7 @@ func (c *TableCell) SetMaxWidth(maxWidth int) {
 // in that column is used.
 //
 // This function panics if a negative value is provided.
-func (c *TableCell) SetExpansion(expansion int) {
+func (c *TableCell) SetExpansion(expansion int) *TableCell {
 	c.Lock()
 	defer c.Unlock()
 
@@ -128,61 +132,68 @@ func (c *TableCell) SetExpansion(expansion int) {
 		panic("Table cell expansion values may not be negative")
 	}
 	c.Expansion = expansion
+	return c
 }
 
 // SetTextColor sets the cell's text color.
-func (c *TableCell) SetTextColor(color tcell.Color) {
+func (c *TableCell) SetTextColor(color tcell.Color) *TableCell {
 	c.Lock()
 	defer c.Unlock()
 
 	c.Color = color
+	return c
 }
 
 // SetBackgroundColor sets the cell's background color. Set to
 // tcell.ColorDefault to use the table's background color.
-func (c *TableCell) SetBackgroundColor(color tcell.Color) {
+func (c *TableCell) SetBackgroundColor(color tcell.Color) *TableCell {
 	c.Lock()
 	defer c.Unlock()
 
 	c.BackgroundColor = color
+	return c
 }
 
 // SetAttributes sets the cell's text attributes. You can combine different
 // attributes using bitmask operations:
 //
 //   cell.SetAttributes(tcell.AttrUnderline | tcell.AttrBold)
-func (c *TableCell) SetAttributes(attr tcell.AttrMask) {
+func (c *TableCell) SetAttributes(attr tcell.AttrMask) *TableCell {
 	c.Lock()
 	defer c.Unlock()
 
 	c.Attributes = attr
+	return c
 }
 
 // SetStyle sets the cell's style (foreground color, background color, and
 // attributes) all at once.
-func (c *TableCell) SetStyle(style tcell.Style) {
+func (c *TableCell) SetStyle(style tcell.Style) *TableCell {
 	c.Lock()
 	defer c.Unlock()
 
 	c.Color, c.BackgroundColor, c.Attributes = style.Decompose()
+	return c
 }
 
 // SetSelectable sets whether or not this cell can be selected by the user.
-func (c *TableCell) SetSelectable(selectable bool) {
+func (c *TableCell) SetSelectable(selectable bool) *TableCell {
 	c.Lock()
 	defer c.Unlock()
 
 	c.NotSelectable = !selectable
+	return c
 }
 
 // SetReference allows you to store a reference of any type in this cell. This
 // will allow you to establish a mapping between the cell and your
 // actual data.
-func (c *TableCell) SetReference(reference interface{}) {
+func (c *TableCell) SetReference(reference interface{}) *TableCell {
 	c.Lock()
 	defer c.Unlock()
 
 	c.Reference = reference
+	return c
 }
 
 // GetReference returns this cell's reference object.
