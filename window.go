@@ -38,6 +38,12 @@ func NewWindow(primitive Primitive) *Window {
 	return w
 }
 
+// SetBackgroundColor of the window
+func (w *Window) SetBackgroundColor(color tcell.Color) *Window {
+	w.Box.SetBackgroundColor(color)
+	return w
+}
+
 // SetStatusBar widget to be displayed on the window
 func (w *Window) SetStatus(text string) *Window {
 	w.Lock()
