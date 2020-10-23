@@ -326,8 +326,6 @@ func (t *TextView) SetBytes(text []byte) *TextView {
 // SetText sets the text of this text view to the provided string. Previously
 // contained text will be removed.
 func (t *TextView) SetText(text string) *TextView {
-	t.Lock()
-	defer t.Unlock()
 
 	t.SetBytes([]byte(text))
 	return t
