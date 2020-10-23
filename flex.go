@@ -67,6 +67,12 @@ func (f *Flex) GetDirection() int {
 	return f.direction
 }
 
+// SetBackgroundColor of the Flex container
+func (f *Flex) SetBackgroundColor(color tcell.Color) *Flex {
+	f.Box.SetBackgroundColor(color)
+	return f
+}
+
 // SetDirection sets the direction in which the contained primitives are
 // distributed. This can be either FlexColumn (default) or FlexRow.
 func (f *Flex) SetDirection(direction int) *Flex {
