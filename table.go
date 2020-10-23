@@ -380,6 +380,31 @@ func (t *Table) Clear() {
 	t.lastColumn = -1
 }
 
+// SetInputCapture installs a function which captures key events before they are
+// forwarded to the primitive's default key event handler. This function can
+// then choose to forward that key event (or a different one) to the default
+// handler by returning it. If nil is returned, the default handler will not
+// be called.
+//
+// Providing a nil handler will remove a previously existing handler.
+//
+// Note that this function will not have an effect on primitives composed of
+// other primitives, such as Form, Flex, or Grid. Key events are only captured
+// by the primitives that have focus (e.g. InputField) and only one primitive
+// can have focus at a time. Composing primitives such as Form pass the focus on
+// to their contained primitives and thus never receive any key events
+// themselves. Therefore, they cannot intercept key events.
+func (t *Table) SetInputCapture(capture func(event *tcell.EventKey) *tcell.EventKey) *Table {
+	t.Box.SetInputCapture(capture)
+	return t
+}
+
+// SetBackgroundColor sets the background color of the table
+func (t *Table) SetBackgroundColor(color tcell.Color) *Table {
+	t.Box.SetBackgroundColor(color)
+	return t
+}
+
 // SetBorders sets whether or not each cell in the table is surrounded by a
 // border.
 func (t *Table) SetBorders(show bool) *Table {
