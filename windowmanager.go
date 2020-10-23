@@ -23,7 +23,7 @@ func NewWindowManager() *WindowManager {
 }
 
 // Add adds a window to the manager.
-func (wm *WindowManager) Add(w ...*Window) {
+func (wm *WindowManager) Add(w ...*Window) *WindowManager {
 	wm.Lock()
 	defer wm.Unlock()
 
@@ -32,14 +32,16 @@ func (wm *WindowManager) Add(w ...*Window) {
 	}
 
 	wm.windows = append(wm.windows, w...)
+	return wm
 }
 
 // Clear removes all windows from the manager.
-func (wm *WindowManager) Clear() {
+func (wm *WindowManager) Clear() *WindowManager {
 	wm.Lock()
 	defer wm.Unlock()
 
 	wm.windows = nil
+	return wm
 }
 
 // Focus is called when this primitive receives focus.
