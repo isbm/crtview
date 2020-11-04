@@ -8,7 +8,8 @@ import (
 
 // WindowManager provides an area which windows may be added to.
 type WindowManager struct {
-	windows []*Window
+	windows    []*Window
+	fullScreen bool
 
 	sync.RWMutex
 	*Box
@@ -42,6 +43,21 @@ func (wm *WindowManager) Clear() *WindowManager {
 
 	wm.windows = nil
 	return wm
+}
+
+// SetFullScreen sets the window manager to a full screen.
+// The size then is inherited from the screen directly.
+func (wm *WindowManager) SetFullScreen(state bool) *WindowManager {
+	wm.Lock()
+	defer wm.Unlock()
+
+	wm.fullScreen = state
+	return wm
+}
+
+// IsFullScreen returns true if the window manager is set to be full screen
+func (wm *WindowManager) IsFullScreen() bool {
+	return wm.fullScreen
 }
 
 // Focus is called when this primitive receives focus.
@@ -79,7 +95,15 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 	wm.RLock()
 	defer wm.RUnlock()
 
-	x, y, width, height := wm.GetInnerRect()
+	var width, height, x, y int
+	if wm.IsFullScreen() {
+		width, height = screen.Size()
+		x, y = 1, 0
+		width--
+		height--
+	} else {
+		x, y, width, height = wm.GetInnerRect()
+	}
 
 	var hasFullScreen bool
 	for _, w := range wm.windows {
@@ -87,8 +111,9 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 			continue
 		}
 
+		marginTop, marginRight, marginBottom, marginLeft := w.GetMarginBorder()
 		hasFullScreen = true
-		w.SetRect(x-1, y, width+2, height+1)
+		w.SetRect(x-1+marginLeft, y+marginTop, width+2-marginRight-marginLeft, height+1-marginBottom-marginTop)
 
 		w.Draw(screen)
 	}
@@ -107,8 +132,9 @@ func (wm *WindowManager) Draw(screen tcell.Screen) {
 			w.x, w.y = sw/2-ww/2, sh/2-wh/2
 		}
 
+		marginTop, marginRight, marginBottom, marginLeft := w.GetMarginBorder()
 		w.SetBorder(true)
-		w.SetRect(x+w.x, y+w.y, w.width, w.height)
+		w.SetRect(x+w.x+marginLeft, y+w.y+marginTop, w.width-marginRight, w.height-marginBottom)
 
 		w.Draw(screen)
 
