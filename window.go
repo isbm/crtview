@@ -22,6 +22,10 @@ type Window struct {
 
 	dragX, dragY   int
 	dragWX, dragWY int
+	marginTop      int
+	marginRight    int
+	marginBottom   int
+	marginLeft     int
 
 	sync.RWMutex
 }
@@ -113,6 +117,19 @@ func (w *Window) SetFullscreen(fullscreen bool) *Window {
 
 	w.fullscreen = fullscreen
 	return w
+}
+
+// SetMarginBorder creates a space around window, outside of any defined borders.
+// This works in full-screen mode too.
+func (w *Window) SetMarginBorder(top int, right int, bottom int, left int) *Window {
+	w.marginTop, w.marginRight, w.marginBottom, w.marginLeft = top, right, bottom, left
+	return w
+}
+
+// GetMarginBorder returns top/right/bottom/left space.
+// This method is mainly used by the WindowManager to properly resize the window on final render.
+func (w *Window) GetMarginBorder() (int, int, int, int) {
+	return w.marginTop, w.marginRight, w.marginBottom, w.marginLeft
 }
 
 // SetPositionCenter sets the flag to the Window Manager that the current window should be displayed centered.
