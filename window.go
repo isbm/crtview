@@ -48,7 +48,7 @@ func (w *Window) SetBackgroundColor(color tcell.Color) *Window {
 	return w
 }
 
-// SetStatusBar widget to be displayed on the window
+// SetStatus widget to be displayed on the window
 func (w *Window) SetStatus(text string) *Window {
 	w.Lock()
 	defer w.Unlock()
@@ -57,7 +57,7 @@ func (w *Window) SetStatus(text string) *Window {
 	return w
 }
 
-// GetStatusBar widget
+// GetStatus widget
 func (w *Window) GetStatus() string {
 	return w.statusbar
 }
