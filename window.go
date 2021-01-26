@@ -48,7 +48,26 @@ func (w *Window) SetBackgroundColor(color tcell.Color) *Window {
 	return w
 }
 
-// SetStatus widget to be displayed on the window
+<<<<<<< HEAD
+// SetTitle of the window
+func (w *Window) SetTitle(title string) *Window {
+	w.Box.SetTitle(title)
+	return w
+}
+
+// SetTitleColor of the title of the window
+func (w *Window) SetTitleColor(color tcell.Color) *Window {
+	w.Box.SetTitleColor(color)
+	return w
+}
+
+// SetBorderColor of the window
+func (w *Window) SetBorderColor(color tcell.Color) *Window {
+	w.Box.SetBorderColor(color)
+	return w
+}
+
+// SetStatusBar widget to be displayed on the window
 func (w *Window) SetStatus(text string) *Window {
 	w.Lock()
 	defer w.Unlock()
