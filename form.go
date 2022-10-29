@@ -106,6 +106,8 @@ type Form struct {
 	// Whether or not navigating the form will wrap around.
 	wrapAround bool
 
+	buttonsAtBottom bool
+
 	// The label color.
 	labelColor tcell.Color
 
@@ -201,6 +203,14 @@ func (f *Form) SetLabelColorFocused(color tcell.Color) {
 	defer f.Unlock()
 
 	f.labelColorFocused = color
+}
+
+func (f *Form) SetButtonsToBottom() {
+	f.buttonsAtBottom = true
+}
+
+func (f *Form) SetButtonsAfterWidgets() {
+	f.buttonsAtBottom = false
 }
 
 // SetFieldBackgroundColor sets the background color of the input areas.
@@ -825,6 +835,12 @@ func (f *Form) Draw(screen tcell.Screen) {
 		}
 	}
 
+	bty := y
+	if f.buttonsAtBottom {
+		_, bty = screen.Size()
+		bty -= 3
+	}
+
 	// Draw buttons.
 	for index, button := range f.buttons {
 		if !button.IsVisible() {
@@ -835,7 +851,7 @@ func (f *Form) Draw(screen tcell.Screen) {
 		buttonIndex := index + len(f.items)
 		y := positions[buttonIndex].y - offset
 		height := positions[buttonIndex].height
-		button.SetRect(positions[buttonIndex].x, y, positions[buttonIndex].width, height)
+		button.SetRect(positions[buttonIndex].x, bty, positions[buttonIndex].width, height)
 
 		// Is this button visible?
 		if y+height <= topLimit || y >= bottomLimit {
