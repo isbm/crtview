@@ -149,6 +149,12 @@ func (f *Flex) RemoveItem(p Primitive) *Flex {
 	return f
 }
 
+// ClearItems removes all items in the container.
+func (f *Flex) ClearItems() *Flex {
+	f.items = []*flexItem{}
+	return f
+}
+
 // ResizeItem sets a new size for the item(s) with the given primitive. If there
 // are multiple Flex items with the same primitive, they will all receive the
 // same size. For details regarding the size parameters, see AddItem().
