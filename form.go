@@ -506,6 +506,10 @@ func (f *Form) AddFormItem(item FormItem) {
 	f.items = append(f.items, item)
 }
 
+func (f *Form) GetFormItems() []FormItem {
+	return f.items
+}
+
 // GetFormItemCount returns the number of items in the form (not including the
 // buttons).
 func (f *Form) GetFormItemCount() int {
