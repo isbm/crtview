@@ -1,6 +1,8 @@
 package crtview
 
 import (
+	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/gdamore/tcell/v2"
@@ -50,6 +52,11 @@ type Box struct {
 	// The alignment of the title.
 	titleAlign int
 
+	// Adds a whitespace around the title.
+	// Without space: ====Title====
+	// With space:    === Title ===
+	titleSpace bool
+
 	// Provides a way to find out if this box has focus. We always go through
 	// this interface because it may be overridden by implementing classes.
 	focus Focusable
@@ -86,6 +93,7 @@ func NewBox() *Box {
 		backgroundColor:    Styles.PrimitiveBackgroundColor,
 		borderColor:        Styles.BorderColor,
 		titleColor:         Styles.TitleColor,
+		titleSpace:         true,
 		borderColorFocused: ColorUnset,
 		titleAlign:         AlignCenter,
 		showFocus:          true,
@@ -156,7 +164,7 @@ func (b *Box) GetInnerRect() (int, int, int, int) {
 // if this primitive is part of a layout (e.g. Flex, Grid) or if it was added
 // like this:
 //
-//   application.SetRoot(b, true)
+//	application.SetRoot(b, true)
 func (b *Box) SetRect(x, y, width, height int) {
 	b.l.Lock()
 	defer b.l.Unlock()
@@ -396,7 +404,7 @@ func (b *Box) SetBorderColorFocused(color tcell.Color) *Box {
 // SetBorderAttributes sets the border's style attributes. You can combine
 // different attributes using bitmask operations:
 //
-//   box.SetBorderAttributes(tcell.AttrUnderline | tcell.AttrBold)
+//	box.SetBorderAttributes(tcell.AttrUnderline | tcell.AttrBold)
 func (b *Box) SetBorderAttributes(attr tcell.AttrMask) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
@@ -410,6 +418,10 @@ func (b *Box) SetTitle(title string) *Box {
 	b.l.Lock()
 	defer b.l.Unlock()
 
+	if b.titleSpace {
+		title = fmt.Sprintf(" %s ", title)
+	}
+
 	b.title = []byte(title)
 	return b
 }
@@ -419,7 +431,20 @@ func (b *Box) GetTitle() string {
 	b.l.RLock()
 	defer b.l.RUnlock()
 
-	return string(b.title)
+	title := string(b.title)
+	if b.titleSpace {
+		title = strings.TrimSpace(title) // Return a real title
+	}
+
+	return title
+}
+
+func (b *Box) SetTitleWhitespace(spaced bool) *Box {
+	b.l.RLock()
+	defer b.l.RUnlock()
+
+	b.titleSpace = spaced
+	return b
 }
 
 // SetTitleColor sets the box's title color.
