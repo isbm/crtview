@@ -819,7 +819,10 @@ func (f *Form) Draw(screen tcell.Screen) {
 
 		// Set position.
 		y := positions[index].y - offset
-		height := positions[index].height
+
+		// XXX: This is incorrect with regard if a FormItem has variable height
+		//height := positions[index].height
+		height := item.GetFieldHeight()
 		item.SetRect(positions[index].x, y, positions[index].width, height)
 
 		// Is this item visible?
