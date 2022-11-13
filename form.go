@@ -150,18 +150,20 @@ func NewForm() *Form {
 	box.SetBorderPadding(1, 1, 1, 1)
 
 	f := &Form{
-		Box:                          box,
-		itemPadding:                  1,
-		labelColor:                   Styles.SecondaryTextColor,
-		fieldBackgroundColor:         Styles.ContrastBackgroundColor,
-		fieldTextColor:               Styles.PrimaryTextColor,
-		buttonBackgroundColor:        Styles.ContrastBackgroundColor,
-		buttonTextColor:              Styles.PrimaryTextColor,
-		buttonBackgroundColorFocused: Styles.PrimaryTextColor,
-		buttonTextColorFocused:       Styles.InverseTextColor,
-		labelColorFocused:            ColorUnset,
-		fieldBackgroundColorFocused:  ColorUnset,
-		fieldTextColorFocused:        ColorUnset,
+		Box:                  box,
+		itemPadding:          1,
+		labelColor:           Styles.SecondaryTextColor,
+		fieldBackgroundColor: Styles.ContrastBackgroundColor,
+		fieldTextColor:       Styles.PrimaryTextColor,
+
+		buttonBackgroundColor:        Styles.ButtonBackgroundColor,
+		buttonTextColor:              Styles.ButtonTextColor,
+		buttonBackgroundColorFocused: Styles.ButtonFocusedBackgroundColor,
+		buttonTextColorFocused:       Styles.ButtonTextFocusedColor,
+
+		labelColorFocused:           ColorUnset,
+		fieldBackgroundColorFocused: ColorUnset,
+		fieldTextColorFocused:       ColorUnset,
 	}
 
 	f.focus = f

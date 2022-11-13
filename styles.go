@@ -16,11 +16,17 @@ type Theme struct {
 	InverseTextColor           tcell.Color // Text on primary-colored backgrounds.
 	ContrastPrimaryTextColor   tcell.Color // Primary text for contrasting elements.
 	ContrastSecondaryTextColor tcell.Color // Secondary text on ContrastBackgroundColor-colored backgrounds.
+	ButtonTextColor            tcell.Color // Button color for label
+	ButtonTextFocusedColor     tcell.Color // Button color for focused label
+	ShadowTextColor            tcell.Color // Shadow text color
 
 	// Background
-	PrimitiveBackgroundColor    tcell.Color // Main background color for primitives.
-	ContrastBackgroundColor     tcell.Color // Background color for contrasting elements.
-	MoreContrastBackgroundColor tcell.Color // Background color for even more contrasting elements.
+	PrimitiveBackgroundColor     tcell.Color // Main background color for primitives.
+	ContrastBackgroundColor      tcell.Color // Background color for contrasting elements.
+	MoreContrastBackgroundColor  tcell.Color // Background color for even more contrasting elements.
+	ButtonBackgroundColor        tcell.Color // Background color for buttons
+	ButtonFocusedBackgroundColor tcell.Color // Background color for focused/selected buttons
+	ShadowColor                  tcell.Color // Shadow color
 
 	// Check box
 	CheckBoxCheckedRune rune
@@ -61,6 +67,14 @@ var Styles = Theme{
 	PrimitiveBackgroundColor:    tcell.ColorBlack.TrueColor(),
 	ContrastBackgroundColor:     tcell.ColorBlue.TrueColor(),
 	MoreContrastBackgroundColor: tcell.ColorGreen.TrueColor(),
+
+	ButtonBackgroundColor:        tcell.ColorWhite.TrueColor(),
+	ButtonFocusedBackgroundColor: tcell.ColorYellow.TrueColor(),
+	ButtonTextColor:              tcell.ColorBlack.TrueColor(),
+	ButtonTextFocusedColor:       tcell.ColorBlack.TrueColor(),
+
+	ShadowTextColor: tcell.NewRGBColor(0x66, 0x66, 0x66),
+	ShadowColor:     tcell.ColorBlack,
 
 	CheckBoxCheckedRune: 'X',
 
