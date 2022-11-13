@@ -847,10 +847,20 @@ func (f *Form) Draw(screen tcell.Screen) {
 	bty := y
 	if f.buttonsAtBottom {
 		_, bty = screen.Size()
-		bty -= 3
+		bty -= 4
 	}
 
 	// Draw buttons.
+	// Shadow takes one charspace
+	buttonLineOffset := 0
+	buttonAlignOffset := 0
+
+	switch f.buttonsAlign {
+	case AlignCenter:
+		buttonAlignOffset = 1
+	case AlignRight:
+		buttonAlignOffset = 2
+	}
 	for index, button := range f.buttons {
 		if !button.IsVisible() {
 			continue
@@ -860,7 +870,11 @@ func (f *Form) Draw(screen tcell.Screen) {
 		buttonIndex := index + len(f.items)
 		y := positions[buttonIndex].y - offset
 		height := positions[buttonIndex].height
-		button.SetRect(positions[buttonIndex].x, bty, positions[buttonIndex].width, height)
+		button.SetRect(positions[buttonIndex].x+buttonLineOffset-buttonAlignOffset, bty, positions[buttonIndex].width, height)
+
+		if buttonLineOffset == 0 {
+			buttonLineOffset++
+		}
 
 		// Is this button visible?
 		if y+height <= topLimit || y >= bottomLimit {
