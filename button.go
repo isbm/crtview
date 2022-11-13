@@ -142,8 +142,23 @@ func (b *Button) Draw(screen tcell.Screen) {
 		if b.focus.HasFocus() {
 			labelColor = b.labelColorFocused
 		}
+
 		Print(screen, b.label, x, y, width, AlignCenter, labelColor)
+
+		if b.focus.HasFocus() {
+			bst := tcell.StyleDefault.Background(Styles.ButtonFocusedBackgroundColor).Foreground(Styles.ButtonTextFocusedColor)
+			screen.SetContent(x, y, '▶', nil, bst)
+			screen.SetContent(x+width-1, y, '◀', nil, bst)
+		}
 	}
+
+	// Shadow
+	_, _, s, _ := screen.GetContent(x, y+1)
+	s = s.Foreground(Styles.ShadowColor)
+	for i := 0; i < width; i++ {
+		screen.SetContent(x+i+1, y+1, '▀', nil, s)
+	}
+	screen.SetContent(x+width, y, '▄', nil, s)
 }
 
 // InputHandler returns the handler for this primitive.
