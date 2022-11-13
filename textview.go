@@ -50,7 +50,7 @@ type textViewRegion struct {
 // but if a handler is installed via SetChangedFunc(), you can cause it to be
 // redrawn. (See SetChangedFunc() for more details.)
 //
-// Navigation
+// # Navigation
 //
 // If the text view is scrollable (the default), text is kept in a buffer which
 // may be larger than the screen and can be navigated similarly to Vim:
