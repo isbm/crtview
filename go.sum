@@ -5,6 +5,8 @@ github.com/gdamore/tcell/v2 v2.0.0 h1:GRWG8aLfWAlekj9Q6W29bVvkHENc6hp79XOqG4AWDO
 github.com/gdamore/tcell/v2 v2.0.0/go.mod h1:vSVL/GV5mCSlPC6thFP5kfOFdM9MGZcalipmpTxTgQA=
 github.com/gdamore/tcell/v2 v2.1.0 h1:UnSmozHgBkQi2PGsFr+rpdXuAPRRucMegpQp3Z3kDro=
 github.com/gdamore/tcell/v2 v2.1.0/go.mod h1:vSVL/GV5mCSlPC6thFP5kfOFdM9MGZcalipmpTxTgQA=
+github.com/isbm/textwrap v0.0.0-20190729202254-22edad10bd84 h1:scHwVk4GXp/7zEXLxK3cp6mNnYO9rnh95D7hLlptjdM=
+github.com/isbm/textwrap v0.0.0-20190729202254-22edad10bd84/go.mod h1:+PDhg1ZFq4tFBnroujXJrpPToQBC7BoN260sgTo/9W0=
 github.com/lucasb-eyer/go-colorful v1.0.3 h1:QIbQXiugsb+q10B+MI+7DI1oQLdmnep86tWFlaaUAac=
 github.com/lucasb-eyer/go-colorful v1.0.3/go.mod h1:R4dSotOR9KMtayYi1e77YzuveK+i7ruzyGqttikkLy0=
 github.com/mattn/go-runewidth v0.0.7/go.mod h1:H031xJmbD/WCDINGzjvQ9THkh0rPKHF+m2gUSrubnMI=

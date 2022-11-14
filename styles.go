@@ -47,6 +47,20 @@ type Theme struct {
 	// Window
 	WindowMinWidth  int
 	WindowMinHeight int
+
+	// Dialogs
+	InfoDialogBackgroundColor    tcell.Color
+	InfoDialogTextColor          tcell.Color
+	InfoDialogBorderColor        tcell.Color
+	AltInfoDialogBackgroundColor tcell.Color
+	AltInfoDialogTextColor       tcell.Color
+	AltInfoDialogBorderColor     tcell.Color
+	WarningDialogBackgroundColor tcell.Color
+	WarningDialogTextColor       tcell.Color
+	WarningDialogBorderColor     tcell.Color
+	AlertDialogBackgroundColor   tcell.Color
+	AlertDialogTextColor         tcell.Color
+	AlertDialogBorderColor       tcell.Color
 }
 
 // Styles defines the appearance of an application. The default is for a black
@@ -90,4 +104,18 @@ var Styles = Theme{
 
 	WindowMinWidth:  4,
 	WindowMinHeight: 3,
+
+	// Default dialogs theming, this usually doesn't need to be changed :)
+	InfoDialogBackgroundColor:    tcell.ColorLightGrey.TrueColor(),
+	InfoDialogTextColor:          tcell.ColorBlack.TrueColor(),
+	InfoDialogBorderColor:        tcell.ColorBlack.TrueColor(),
+	AltInfoDialogBackgroundColor: tcell.ColorTeal.TrueColor(),
+	AltInfoDialogTextColor:       tcell.ColorWhite.TrueColor(),
+	AltInfoDialogBorderColor:     tcell.ColorAqua.TrueColor(),
+	WarningDialogBackgroundColor: tcell.ColorOlive.TrueColor(),
+	WarningDialogTextColor:       tcell.ColorWhite.TrueColor(),
+	WarningDialogBorderColor:     tcell.ColorYellow.TrueColor(),
+	AlertDialogBackgroundColor:   tcell.ColorRed.TrueColor(),
+	AlertDialogTextColor:         tcell.ColorWhite.TrueColor(),
+	AlertDialogBorderColor:       tcell.ColorLightYellow.TrueColor(),
 }
