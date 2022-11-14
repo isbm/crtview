@@ -4,6 +4,7 @@ go 1.12
 
 require (
 	github.com/gdamore/tcell/v2 v2.1.0
+	github.com/isbm/textwrap v0.0.0-20190729202254-22edad10bd84 // indirect
 	github.com/lucasb-eyer/go-colorful v1.0.3
 	github.com/mattn/go-runewidth v0.0.10
 	github.com/rivo/uniseg v0.2.0
