@@ -28,8 +28,10 @@ type ModalDialog struct {
 
 func NewModalDialog(flags int) *ModalDialog {
 	return (&ModalDialog{
-		flags:        flags,
-		DialogWindow: NewDialogWindow(),
+		flags:         flags,
+		DialogWindow:  NewDialogWindow(),
+		confirmAction: func() {},
+		cancelAction:  func() {},
 	}).init()
 }
 
