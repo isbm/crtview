@@ -85,6 +85,7 @@ func (tmd *ModalDialog) init() *ModalDialog {
 	tmd.SetTextAlign(crtview.AlignCenter)
 	tmd.SetCentered(true)
 	tmd.SetTextAutofill(true)
+	tmd.SetButtonsToBottom(true)
 
 	return tmd
 }
