@@ -207,8 +207,8 @@ func (f *Form) SetLabelColorFocused(color tcell.Color) {
 	f.labelColorFocused = color
 }
 
-func (f *Form) SetButtonsToBottom() {
-	f.buttonsAtBottom = true
+func (f *Form) SetButtonsToBottom(atBottom bool) {
+	f.buttonsAtBottom = atBottom
 }
 
 func (f *Form) SetButtonsAfterWidgets() {
@@ -844,10 +844,10 @@ func (f *Form) Draw(screen tcell.Screen) {
 		}
 	}
 
-	bty := y
+	buttonYPos := y
 	if f.buttonsAtBottom {
-		_, bty = screen.Size()
-		bty -= 4
+		_, fy, _, h := f.GetRect()
+		buttonYPos = h + fy - 3
 	}
 
 	// Draw buttons.
@@ -870,7 +870,7 @@ func (f *Form) Draw(screen tcell.Screen) {
 		buttonIndex := index + len(f.items)
 		y := positions[buttonIndex].y - offset
 		height := positions[buttonIndex].height
-		button.SetRect(positions[buttonIndex].x+buttonLineOffset-buttonAlignOffset, bty, positions[buttonIndex].width, height)
+		button.SetRect(positions[buttonIndex].x+buttonLineOffset-buttonAlignOffset, buttonYPos, positions[buttonIndex].width, height)
 
 		if buttonLineOffset == 0 {
 			buttonLineOffset++
