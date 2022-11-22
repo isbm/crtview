@@ -146,6 +146,9 @@ type List struct {
 	// The text color for selected items.
 	selectedTextColor tcell.Color
 
+	// Disabled item color. Default is grey.
+	disabledItemColor tcell.Color
+
 	// The style attributes for selected items.
 	selectedTextAttributes tcell.AttrMask
 
@@ -209,6 +212,7 @@ func NewList() *List {
 		selectedTextColor:       Styles.PrimitiveBackgroundColor,
 		scrollBarColor:          Styles.ScrollBarColor,
 		selectedBackgroundColor: Styles.PrimaryTextColor,
+		disabledItemColor:       tcell.ColorLightGrey.TrueColor(),
 	}
 
 	l.ContextMenu = NewContextMenu(l)
@@ -400,6 +404,14 @@ func (l *List) SetSelectedBackgroundColor(color tcell.Color) {
 	defer l.Unlock()
 
 	l.selectedBackgroundColor = color
+}
+
+// SetDisabledItemTextColor sets the text color of a disabled items.
+func (l *List) SetDisabledItemTextColor(color tcell.Color) {
+	l.Lock()
+	defer l.Unlock()
+
+	l.disabledItemColor = color
 }
 
 // SetSelectedFocusOnly sets a flag which determines when the currently selected
@@ -932,11 +944,11 @@ func (l *List) Draw(screen tcell.Screen) {
 		} else if item.disabled {
 			// Shortcuts.
 			if showShortcuts && item.shortcut != 0 {
-				Print(screen, []byte(fmt.Sprintf("(%c)", item.shortcut)), x-5, y, 4, AlignRight, tcell.ColorDarkSlateGray.TrueColor())
+				Print(screen, []byte(fmt.Sprintf("(%c)", item.shortcut)), x-5, y, 4, AlignRight, l.disabledItemColor)
 			}
 
 			// Main text.
-			Print(screen, mainText, x, y, width, AlignLeft, tcell.ColorGray.TrueColor())
+			Print(screen, mainText, x, y, width, AlignLeft, l.disabledItemColor)
 
 			RenderScrollBar(screen, l.scrollBarVisibility, scrollBarX, y, scrollBarHeight, len(l.items), scrollBarCursor, index-l.itemOffset, l.hasFocus, l.scrollBarColor)
 			y++
