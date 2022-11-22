@@ -1,5 +1,11 @@
 package crtview
 
+const (
+	BorderDouble = iota
+	BorderSingle
+	BorderHeavy
+)
+
 // Borders defines various borders used when primitives are drawn.
 // These may be changed to accommodate a different look and feel.
 var Borders = struct {
@@ -35,6 +41,15 @@ var Borders = struct {
 	TopT:    BoxDrawingsLightDownAndHorizontal,
 	BottomT: BoxDrawingsLightUpAndHorizontal,
 	Cross:   BoxDrawingsLightVerticalAndHorizontal,
+
+	/*
+		HeavyHorizontalFocus:  BoxDrawingsHeavyHorizontal,
+		HeavyVerticalFocus:    BoxDrawingsHeavyVertical,
+		HeavyTopLeftFocus:     BoxDrawingsHeavyDownAndRight,
+		HeavyTopRightFocus:    BoxDrawingsHeavyDownAndLeft,
+		HeavyBottomLeftFocus:  BoxDrawingsHeavyUpAndRight,
+		HeavyBottomRightFocus: BoxDrawingsHeavyUpAndLeft,
+	*/
 
 	HorizontalFocus:  BoxDrawingsDoubleHorizontal,
 	VerticalFocus:    BoxDrawingsDoubleVertical,
