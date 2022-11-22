@@ -42,7 +42,7 @@ const (
 	BoxDrawingsLightVerticalAndRight              rune = '\u251c' // ├
 	BoxDrawingsVerticalLightAndRightHeavy         rune = '\u251d' // ┝
 	BoxDrawingsUpHeavyAndRightDownLight           rune = '\u251e' // ┞
-	BoxDrawingsDownHeacyAndRightUpLight           rune = '\u251f' // ┟
+	BoxDrawingsDownHeavyAndRightUpLight           rune = '\u251f' // ┟
 	BoxDrawingsVerticalHeavyAndRightLight         rune = '\u2520' // ┠
 	BoxDrawingsDownLightAnbdRightUpHeavy          rune = '\u2521' // ┡
 	BoxDrawingsUpLightAndRightDownHeavy           rune = '\u2522' // ┢
