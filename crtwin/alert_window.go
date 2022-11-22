@@ -59,6 +59,7 @@ func (tmd *ModalDialog) init() *ModalDialog {
 	tmd.SetBorder(true)
 	tmd.SetBackgroundColor(bgc)
 	tmd.SetBorderColor(brc)
+	tmd.SetBorderColorFocused(brc)
 	tmd.SetTitleColor(brc)
 
 	//tmd.SetButtonsToBottom(true) /XXX: Buggy!
