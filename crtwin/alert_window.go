@@ -62,8 +62,6 @@ func (tmd *ModalDialog) init() *ModalDialog {
 	tmd.SetBorderColorFocused(brc)
 	tmd.SetTitleColor(brc)
 
-	//tmd.SetButtonsToBottom(true) /XXX: Buggy!
-
 	tmd.msg = crtforms.NewFormTextView()
 	tmd.msg.SetBackgroundColor(bgc)
 	tmd.msg.SetTextColor(txc)
@@ -95,10 +93,21 @@ func (tmd *ModalDialog) init() *ModalDialog {
 
 func (tmd *ModalDialog) SetMessage(msg string) {
 	tmd.msg.SetText(msg)
-	x, y, w, _ := tmd.GetRect()
-	_, _, _, mh := tmd.msg.GetRect()
-	tmd.msg.SetRect(x, y, w, mh)
+}
 
+// Draw the alert window. This is a bit tricky, because alert window is dynamic on the height,
+// depending on the amount of the text passed as a message.
+func (tmd *ModalDialog) Draw(screen tcell.Screen) {
+	// Pass parent width to the text field
+	_, _, ww, _ := tmd.GetRect()
+	fx, fy, _, fh := tmd.msg.GetRect()
+	tmd.msg.SetRect(fx, fy, ww, fh)
+
+	// Resize alert according to the text content size
+	tmd.SetSize(ww, tmd.msg.GetFieldHeight()+8)
+
+	// Draw the rest
+	tmd.DialogWindow.Draw(screen)
 }
 
 func (tmd *ModalDialog) SetTextAutofill(autofill bool) *ModalDialog {
