@@ -157,7 +157,7 @@ func (c *TableCell) SetBackgroundColor(color tcell.Color) *TableCell {
 // SetAttributes sets the cell's text attributes. You can combine different
 // attributes using bitmask operations:
 //
-//   cell.SetAttributes(tcell.AttrUnderline | tcell.AttrBold)
+//	cell.SetAttributes(tcell.AttrUnderline | tcell.AttrBold)
 func (c *TableCell) SetAttributes(attr tcell.AttrMask) *TableCell {
 	c.Lock()
 	defer c.Unlock()
@@ -237,13 +237,13 @@ func (c *TableCell) GetLastPosition() (x, y, width int) {
 // Columns will use as much horizontal space as they need. You can constrain
 // their size with the MaxWidth parameter of the TableCell type.
 //
-// Fixed Columns
+// # Fixed Columns
 //
 // You can define fixed rows and rolumns via SetFixed(). They will always stay
 // in their place, even when the table is scrolled. Fixed rows are always the
 // top rows. Fixed columns are always the leftmost columns.
 //
-// Selections
+// # Selections
 //
 // You can call SetSelectable() to set columns and/or rows to "selectable". If
 // the flag is set only for columns, entire columns can be selected by the user.
@@ -251,7 +251,7 @@ func (c *TableCell) GetLastPosition() (x, y, width int) {
 // set, individual cells can be selected. The "selected" handler set via
 // SetSelectedFunc() is invoked when the user presses Enter on a selection.
 //
-// Navigation
+// # Navigation
 //
 // If the table extends beyond the available space, it can be navigated with
 // key bindings similar to Vim:
@@ -448,7 +448,7 @@ func (t *Table) SetScrollBarColor(color tcell.Color) *Table {
 //
 // To reset a previous setting to its default, make the following call:
 //
-//   table.SetSelectedStyle(tcell.ColorDefault, tcell.ColorDefault, 0)
+//	table.SetSelectedStyle(tcell.ColorDefault, tcell.ColorDefault, 0)
 func (t *Table) SetSelectedStyle(foregroundColor, backgroundColor tcell.Color, attributes tcell.AttrMask) *Table {
 	t.Lock()
 	defer t.Unlock()
