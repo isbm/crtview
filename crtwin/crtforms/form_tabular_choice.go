@@ -30,37 +30,44 @@ type FormTabularChoice struct {
 	// Which column is expanded. Default is -1
 	expandedColumn int
 
+	// Adds another column in front that shows selected items.
+	showSelectedColumn bool
+
 	hiddenColumns []int
 
 	header []string
 	rows   [][]string
 
-	// Index of newly selected and deselected items, if multi-select mode
-	selected, deselected []int
+	// Index of newly selectedRows and deselectedRows items, if multi-select mode
+	selectedRows, deselectedRows []int
 
 	*crtview.Table
 }
 
-func NewFormTabularChoice(label string, header []string, rows [][]string, hidden ...int) *FormTabularChoice {
+func NewFormTabularChoice(label string, header []string, rows [][]string, showSelected bool, hidden ...int) *FormTabularChoice {
 	return (&FormTabularChoice{
-		Table:           crtview.NewTable(),
-		selected:        []int{},
-		deselected:      []int{},
-		hiddenColumns:   hidden,
-		expandedColumn:  -1,
-		isMultiSelect:   false,
-		hasSearchFilter: false,
-		fieldHeight:     5,
-		valueColumn:     0,
-		label:           label,
-		header:          header,
-		rows:            rows,
+		Table:              crtview.NewTable(),
+		selectedRows:       []int{},
+		deselectedRows:     []int{},
+		hiddenColumns:      hidden,
+		expandedColumn:     -1,
+		isMultiSelect:      false,
+		hasSearchFilter:    false,
+		showSelectedColumn: showSelected,
+		fieldHeight:        5,
+		valueColumn:        0,
+		label:              label,
+		header:             header,
+		rows:               rows,
 	}).init()
 }
 
 func (tbc *FormTabularChoice) skip(v int) bool {
 	for _, c := range tbc.hiddenColumns {
-		if v == c-1 {
+		if !tbc.showSelectedColumn {
+			c--
+		}
+		if v == c {
 			return true
 		}
 	}
@@ -75,6 +82,18 @@ func (tbc *FormTabularChoice) init() *FormTabularChoice {
 	tbc.SetSelectable(true, false)
 	tbc.Select(1, 1)
 	tbc.SetFixed(1, 1)
+
+	// Alter data, if there is selected column to display
+	if tbc.showSelectedColumn {
+		insert := func(row []string, data string, pos int) []string {
+			return append(row[:pos], append([]string{data}, row[pos:]...)...)
+		}
+
+		tbc.header = insert(tbc.header, "...", 0)
+		for i, r := range tbc.rows {
+			tbc.rows[i] = insert(r, "   ", 0)
+		}
+	}
 
 	// Make header
 	col := 0
@@ -105,10 +124,6 @@ func (tbc *FormTabularChoice) init() *FormTabularChoice {
 	tbc.fillEmpty()
 
 	return tbc
-}
-
-func (tbc *FormTabularChoice) Focus(delegate func(p crtview.Primitive)) {
-	tbc.Table.Focus(delegate)
 }
 
 func (tbc *FormTabularChoice) removeEmpty() {
@@ -180,12 +195,18 @@ func (tbc *FormTabularChoice) SetHasSearch(search bool) *FormTabularChoice {
 // SetExpandingColumn sets the column that is expanding.
 // NOTE: 1st column start from 1, not from 0.
 func (tbc *FormTabularChoice) SetExpandingColumn(col int) *FormTabularChoice {
-	if col >= 0 {
-		tbc.expandedColumn = col
+	col--
+	if col < 0 {
+		return tbc
+	}
+
+	tbc.expandedColumn = col
+	if tbc.showSelectedColumn {
+		tbc.expandedColumn++
 	}
 
 	for idx := range tbc.rows {
-		tbc.GetCell(idx, tbc.expandedColumn-1).SetExpansion(0xB)
+		tbc.GetCell(idx, tbc.expandedColumn).SetExpansion(0xB)
 	}
 
 	return tbc
@@ -211,7 +232,11 @@ func (tbc *FormTabularChoice) GetFieldWidth() int {
 // GetValueAt (row). Note: rows here are counted from 0, not from 1.
 func (tbc *FormTabularChoice) GetValueAt(row int) string {
 	if tbc.valueColumn > -1 {
-		return tbc.rows[row][tbc.valueColumn]
+		offset := tbc.valueColumn
+		if tbc.showSelectedColumn {
+			offset++
+		}
+		return tbc.rows[row][offset]
 	}
 
 	return strings.Join(tbc.rows[row], ",")
@@ -239,6 +264,31 @@ func (tbc *FormTabularChoice) SetLabelColorFocused(color tcell.Color) {
 
 func (tbc *FormTabularChoice) SetBackgroundColor(color tcell.Color) {
 	tbc.Table.SetBackgroundColor(color)
+}
+
+func (tbc *FormTabularChoice) SetSelectedFunc(handler func(row, column int)) *FormTabularChoice {
+	tbc.Table.SetSelectedFunc(func(row, column int) {
+		tbc.setSelectedMarker(row)
+		handler(row, column)
+	})
+	return tbc
+}
+
+func (tbc *FormTabularChoice) Select(row, col int) {
+	tbc.Table.Select(row, col)
+	tbc.setSelectedMarker(row)
+}
+
+func (tbc *FormTabularChoice) setSelectedMarker(row int) {
+	if tbc.showSelectedColumn {
+		for i := 1; i < tbc.GetRowCount(); i++ { // skip the header
+			label := "   "
+			if i == row {
+				label = " ◆ "
+			}
+			tbc.GetCell(i, 0).SetText(label)
+		}
+	}
 }
 
 func (tbc *FormTabularChoice) SetFieldBackgroundColor(color tcell.Color)        {}
