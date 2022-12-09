@@ -43,6 +43,9 @@ type Box struct {
 	// The style attributes of the border.
 	borderAttributes tcell.AttrMask
 
+	// Style of the focused border
+	borderFocusStyle int
+
 	// The title. Only visible if there is a border, too.
 	title []byte
 
@@ -92,6 +95,7 @@ func NewBox() *Box {
 		visible:            true,
 		backgroundColor:    Styles.PrimitiveBackgroundColor,
 		borderColor:        Styles.BorderColor,
+		borderFocusStyle:   BorderDouble,
 		titleColor:         Styles.TitleColor,
 		titleSpace:         true,
 		borderColorFocused: ColorUnset,
@@ -393,6 +397,17 @@ func (b *Box) SetBorderColor(color tcell.Color) *Box {
 	return b
 }
 
+// SetFocusedBorderStyle sets the box's border style when it is selected (double, single or heavy).
+func (b *Box) SetFocusedBorderStyle(borderStyle int) *Box {
+	switch borderStyle {
+	case BorderSingle, BorderDouble, BorderHeavy:
+		b.borderFocusStyle = borderStyle
+	default:
+		b.borderFocusStyle = BorderDouble
+	}
+	return b
+}
+
 // SetBorderColorFocused sets the box's border color when the box is focused.
 func (b *Box) SetBorderColorFocused(color tcell.Color) *Box {
 	b.l.Lock()
@@ -511,12 +526,29 @@ func (b *Box) Draw(screen tcell.Screen) {
 		}
 
 		if hasFocus && b.showFocus {
-			horizontal = Borders.HorizontalFocus
-			vertical = Borders.VerticalFocus
-			topLeft = Borders.TopLeftFocus
-			topRight = Borders.TopRightFocus
-			bottomLeft = Borders.BottomLeftFocus
-			bottomRight = Borders.BottomRightFocus
+			switch b.borderFocusStyle {
+			case BorderSingle:
+				horizontal = BoxDrawingsLightHorizontal
+				vertical = BoxDrawingsLightVertical
+				topLeft = BoxDrawingsLightDownAndRight
+				topRight = BoxDrawingsLightDownAndLeft
+				bottomLeft = BoxDrawingsLightUpAndRight
+				bottomRight = BoxDrawingsLightUpAndLeft
+			case BorderDouble:
+				horizontal = BoxDrawingsDoubleHorizontal
+				vertical = BoxDrawingsDoubleVertical
+				topLeft = BoxDrawingsDoubleDownAndRight
+				topRight = BoxDrawingsDoubleDownAndLeft
+				bottomLeft = BoxDrawingsDoubleUpAndRight
+				bottomRight = BoxDrawingsDoubleUpAndLeft
+			case BorderHeavy:
+				horizontal = BoxDrawingsHeavyHorizontal
+				vertical = BoxDrawingsHeavyVertical
+				topLeft = BoxDrawingsHeavyDownAndRight
+				topRight = BoxDrawingsHeavyDownAndLeft
+				bottomLeft = BoxDrawingsHeavyUpAndRight
+				bottomRight = BoxDrawingsHeavyUpAndLeft
+			}
 		} else {
 			horizontal = Borders.Horizontal
 			vertical = Borders.Vertical
@@ -540,11 +572,18 @@ func (b *Box) Draw(screen tcell.Screen) {
 
 		// Draw title.
 		if len(b.title) > 0 && b.width >= 4 {
-			printed, _ := Print(screen, b.title, b.x+1, b.y, b.width-2, b.titleAlign, b.titleColor)
+			var titleStyle tcell.Style
+			if hasFocus && b.showFocus {
+				titleStyle = tcell.StyleDefault.Background(b.borderColorFocused).Foreground(b.backgroundColor)
+			} else {
+				titleStyle = tcell.StyleDefault.Foreground(b.borderColor).Background(b.backgroundColor)
+			}
+
+			printed, _ := PrintStyle(screen, b.title, b.x+1, b.y, b.width-2, b.titleAlign, titleStyle)
 			if len(b.title)-printed > 0 && printed > 0 {
-				_, _, style, _ := screen.GetContent(b.x+b.width-2, b.y)
-				fg, _, _ := style.Decompose()
-				Print(screen, []byte(string(SemigraphicsHorizontalEllipsis)), b.x+b.width-2, b.y, 1, AlignLeft, fg)
+				//_, _, style, _ := screen.GetContent(b.x+b.width-2, b.y)
+				//fg, _, _ := style.Decompose()
+				PrintStyle(screen, []byte(string(SemigraphicsHorizontalEllipsis)), b.x+b.width-2, b.y, 1, AlignLeft, titleStyle)
 			}
 		}
 	}

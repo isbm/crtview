@@ -28,7 +28,8 @@ func (ftw *FormTextView) init() *FormTextView {
 
 // GetFieldHeight returns current height of the field, if the item is not anyway in a Flex or Grid
 func (ftw *FormTextView) GetFieldHeight() int {
-	return len(strings.Split(ftw.GetText(true), "\n"))
+	_, _, w, _ := ftw.GetRect()
+	return len(textwrap.NewTextWrap().SetWidth(w).SetDropWhitespace(true).Wrap(strings.ReplaceAll(ftw.GetText(true), "\n", " ")))
 }
 
 // GetFieldWidth returns current width of the field, if the item is not anyway in a Flex or Grid
@@ -84,13 +85,16 @@ func (ftw *FormTextView) SetLabel(label string)                            {}
 // Draw the widget on its place. This also contains dynamic hooks,
 // such as reformatting text on a fly, depending on the current dimensions.
 func (ftw *FormTextView) Draw(screen tcell.Screen) {
-	_, _, width, _ := ftw.GetRect()
+	ftw.GetFieldHeight()
+	x, y, w, _ := ftw.GetRect()
 
 	// Place text on the widget where it belongs
 	text := ftw.GetText(true)
 	if ftw.autofill {
-		text = textwrap.NewTextWrap().SetWidth(width).SetDropWhitespace(true).Fill(strings.ReplaceAll(text, "\n", " "))
+		text = textwrap.NewTextWrap().SetWidth(w).SetDropWhitespace(true).Fill(strings.ReplaceAll(text, "\n", " "))
 	}
+
 	ftw.SetText(text)
+	ftw.SetRect(x, y, w, ftw.GetFieldHeight())
 	ftw.TextView.Draw(screen)
 }
