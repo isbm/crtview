@@ -1,6 +1,7 @@
 package crtforms
 
 import (
+	"reflect"
 	"strings"
 
 	"github.com/gdamore/tcell/v2"
@@ -42,6 +43,7 @@ type FormTabularChoice struct {
 	selectedRows, deselectedRows []int
 
 	*crtview.Table
+	*crtview.FormItemBaseMixin
 }
 
 func NewFormTabularChoice(label string, header []string, rows [][]string, showSelected bool, hidden ...int) *FormTabularChoice {
@@ -303,4 +305,8 @@ func (tbc *FormTabularChoice) SetLabelWidth(width int) {}
 // Draw table-list pick
 func (tbc *FormTabularChoice) Draw(screen tcell.Screen) {
 	tbc.Table.Draw(screen)
+}
+
+func (tbc *FormTabularChoice) GetWidgetType() string {
+	return reflect.TypeOf(tbc).Elem().Name()
 }

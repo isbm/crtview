@@ -59,6 +59,8 @@ type CheckBox struct {
 	checkedRune rune
 
 	sync.RWMutex
+
+	*FormItemBaseMixin
 }
 
 // NewCheckBox returns a new input field.
