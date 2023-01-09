@@ -56,6 +56,8 @@ type Slider struct {
 	finished func(tcell.Key)
 
 	sync.RWMutex
+
+	*FormItemBaseMixin
 }
 
 // NewSlider returns a new slider.

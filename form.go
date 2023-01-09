@@ -73,7 +73,40 @@ type FormItem interface {
 
 	// SetFinishedFunc sets a callback invoked when the user leaves the form item.
 	SetFinishedFunc(func(key tcell.Key))
+
+	// IsMaximised returns if a widget can be vertically maximised.
+	IsMaximised() bool
+
+	// SetMaximised sets widget to be maximised vertically, as long as it is the last one
+	// and is maximise-able (like tabular view or text entry). One-unit high fields won't
+	// be affected, such as field text entry or password or dropdown etc.
+	SetMaximised(maximised bool)
+
+	// GetWidgetType returns a class of the widget.
+	GetWidgetType() string
 }
+
+/*
+FormItemBaseMixin implement all common methods for all FormItem class,
+allowing them to override it, when needed.
+*/
+type FormItemBaseMixin struct {
+	maximised bool
+}
+
+// SetMaximised sets widget to be maximised vertically. Note, this affect only
+// widgets that are maximise-able and only if the widget is last in line.
+func (mixin *FormItemBaseMixin) SetMaximised(maximised bool) {
+	mixin.maximised = maximised
+}
+
+// IsMaximised returns boolean if the widget expected to be vertically maximised.
+func (mixin *FormItemBaseMixin) IsMaximised() bool {
+	return mixin.maximised
+}
+
+// GetWidgetType is used for Form when drawing the widget.
+func (mixin *FormItemBaseMixin) GetWidgetType() string { return "" }
 
 // Form allows you to combine multiple one-line form elements into a vertical
 // or horizontal layout. Form elements include types such as InputField or

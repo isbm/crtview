@@ -138,6 +138,8 @@ type DropDown struct {
 	dropDownSymbol rune
 
 	sync.RWMutex
+
+	*FormItemBaseMixin
 }
 
 // NewDropDown returns a new drop-down.

@@ -137,6 +137,8 @@ type InputField struct {
 	offset int
 
 	sync.RWMutex
+
+	*FormItemBaseMixin
 }
 
 // NewInputField returns a new input field.

@@ -13,6 +13,7 @@ type FormTextView struct {
 	autofill bool
 
 	*crtview.TextView
+	*crtview.FormItemBaseMixin
 }
 
 func NewFormTextView() *FormTextView {
