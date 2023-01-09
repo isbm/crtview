@@ -200,6 +200,11 @@ type TextView struct {
 	// highlighted.
 	highlighted func(added, removed, remaining []string)
 
+	// Skip lines with \r
+	// This allows to display "animated" output
+	// TODO: handle it in terminal way in a future
+	skipCRet bool
+
 	sync.RWMutex
 }
 
@@ -729,6 +734,10 @@ func (t *TextView) HasFocus() bool {
 	return t.hasFocus
 }
 
+func (t *TextView) SetSkipCursorReturn(s bool) {
+	t.skipCRet = s
+}
+
 // Write lets us implement the io.Writer interface. Tab characters will be
 // replaced with TabSize space characters. A "\n" or "\r\n" will be interpreted
 // as a new line.
@@ -776,6 +785,9 @@ func (t *TextView) write(p []byte) (n int, err error) {
 	// Transform the new bytes into strings.
 	newBytes = bytes.Replace(newBytes, []byte{'\t'}, bytes.Repeat([]byte{' '}, TabSize), -1)
 	for index, line := range bytes.Split(newBytes, []byte("\n")) {
+		if t.skipCRet && bytes.Contains(line, []byte("\r")) {
+			continue
+		}
 		if index == 0 {
 			if len(t.buffer) == 0 {
 				t.buffer = [][]byte{line}
