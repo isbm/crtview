@@ -30,12 +30,27 @@ func (ftw *FormTextView) init() *FormTextView {
 // GetFieldHeight returns current height of the field, if the item is not anyway in a Flex or Grid
 func (ftw *FormTextView) GetFieldHeight() int {
 	_, _, w, _ := ftw.GetRect()
-	return len(textwrap.NewTextWrap().SetWidth(w).SetDropWhitespace(true).Wrap(strings.ReplaceAll(ftw.GetText(true), "\n", " ")))
+	if ftw.autofill {
+		return len(ftw.getAutofilledMessage(w))
+	} else {
+		return len(strings.Split(ftw.GetText(true), "\n"))
+	}
 }
 
 // GetFieldWidth returns current width of the field, if the item is not anyway in a Flex or Grid
 func (ftw *FormTextView) GetFieldWidth() int {
 	_, _, w, _ := ftw.GetRect()
+	if ftw.autofill {
+		return w
+	}
+
+	w = 0
+	for _, line := range strings.Split(ftw.GetText(true), "\n") {
+		line := strings.TrimSpace(line)
+		if len(line) > w {
+			w = len(line)
+		}
+	}
 	return w
 }
 
@@ -55,7 +70,8 @@ func (ftw *FormTextView) SetTextAutofill(autofill bool) *FormTextView {
 }
 
 func (ftw *FormTextView) SetText(text string) *FormTextView {
-	ftw.SetTextAutofill(!strings.Contains(text, "\n"))
+	// XXX: Disable autofill for now, this needs to be reviewed
+	//ftw.SetTextAutofill(!strings.Contains(text, "\n"))
 	ftw.TextView.SetText(text)
 	return ftw
 }
@@ -68,6 +84,10 @@ func (ftw *FormTextView) SetBackgroundColor(color tcell.Color) {
 func (ftw *FormTextView) SetTextAlign(align int) *FormTextView {
 	ftw.TextView.SetTextAlign(align)
 	return ftw
+}
+
+func (ftw *FormTextView) getAutofilledMessage(w int) string {
+	return textwrap.NewTextWrap().SetWidth(w).SetDropWhitespace(true).Fill(strings.ReplaceAll(ftw.GetText(true), "\n", " "))
 }
 
 /*
@@ -92,7 +112,7 @@ func (ftw *FormTextView) Draw(screen tcell.Screen) {
 	// Place text on the widget where it belongs
 	text := ftw.GetText(true)
 	if ftw.autofill {
-		text = textwrap.NewTextWrap().SetWidth(w).SetDropWhitespace(true).Fill(strings.ReplaceAll(text, "\n", " "))
+		text = ftw.getAutofilledMessage(w)
 	}
 
 	ftw.SetText(text)

@@ -98,13 +98,16 @@ func (tmd *ModalDialog) SetMessage(msg string) {
 // Draw the alert window. This is a bit tricky, because alert window is dynamic on the height,
 // depending on the amount of the text passed as a message.
 func (tmd *ModalDialog) Draw(screen tcell.Screen) {
-	// Pass parent width to the text field
-	_, _, ww, _ := tmd.GetRect()
-	fx, fy, _, fh := tmd.msg.GetRect()
-	tmd.msg.SetRect(fx, fy, ww, fh)
-
 	// Resize alert according to the text content size
-	tmd.SetSize(ww, tmd.msg.GetFieldHeight()+8)
+	w := tmd.msg.GetFieldWidth()
+	if len(tmd.GetTitle()) > tmd.msg.GetFieldWidth() {
+		w = len(tmd.GetTitle())
+	}
+	tmd.SetSize(w+6, tmd.msg.GetFieldHeight()+8) // 6 & 8 is a padding for shadows, borders etc
+
+	// Pass parent width to the text field
+	fx, fy, _, fh := tmd.msg.GetRect()
+	tmd.msg.SetRect(fx, fy, w+6, fh)
 
 	// Draw the rest
 	tmd.DialogWindow.Draw(screen)
