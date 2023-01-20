@@ -87,13 +87,46 @@ func (tbc *FormTabularChoice) init() *FormTabularChoice {
 
 	// Alter data, if there is selected column to display
 	if tbc.showSelectedColumn {
-		insert := func(row []string, data string, pos int) []string {
-			return append(row[:pos], append([]string{data}, row[pos:]...)...)
-		}
+		tbc.header = tbc.insert(tbc.header, "...", 0)
+	}
 
-		tbc.header = insert(tbc.header, "...", 0)
-		for i, r := range tbc.rows {
-			tbc.rows[i] = insert(r, "   ", 0)
+	tbc.loadContent()
+
+	return tbc
+}
+
+func (tbc *FormTabularChoice) insert(row []string, data string, pos int) []string {
+	return append(row[:pos], append([]string{data}, row[pos:]...)...)
+}
+
+// AppendContent to the existing one from the bottom of the table.
+func (tbc *FormTabularChoice) AppendContent(rows [][]string) {
+	tbc.rows = append(tbc.rows, rows...)
+	tbc.loadContent()
+}
+
+// ReplaceContent removes the existing content, replacing with the new one
+func (tbc *FormTabularChoice) ReplaceContent(rows [][]string) {
+	tbc.rows = rows
+	tbc.loadContent()
+}
+
+// InsertContent puts a content on top of the existing one inside of the tabular
+func (tbc *FormTabularChoice) InsertContent(rows [][]string) {
+	tbc.rows = append(rows, tbc.rows...)
+	tbc.loadContent()
+}
+
+// LoadContent of the table
+func (tbc *FormTabularChoice) loadContent() {
+	rows := [][]string{}
+	rows = append(rows, tbc.rows...)
+
+	tbc.Clear()
+
+	if tbc.showSelectedColumn {
+		for i, r := range rows {
+			rows[i] = tbc.insert(r, "   ", 0)
 		}
 	}
 
@@ -111,7 +144,7 @@ func (tbc *FormTabularChoice) init() *FormTabularChoice {
 	}
 
 	// Add rows
-	for ridx, row := range tbc.rows {
+	for ridx, row := range rows {
 		col = 0
 		for cidx, label := range row {
 			if tbc.skip(cidx) {
@@ -124,8 +157,6 @@ func (tbc *FormTabularChoice) init() *FormTabularChoice {
 	}
 
 	tbc.fillEmpty()
-
-	return tbc
 }
 
 func (tbc *FormTabularChoice) removeEmpty() {
@@ -234,11 +265,7 @@ func (tbc *FormTabularChoice) GetFieldWidth() int {
 // GetValueAt (row). Note: rows here are counted from 0, not from 1.
 func (tbc *FormTabularChoice) GetValueAt(row int) string {
 	if tbc.valueColumn > -1 {
-		offset := tbc.valueColumn
-		if tbc.showSelectedColumn {
-			offset++
-		}
-		return tbc.rows[row][offset]
+		return tbc.rows[row][tbc.valueColumn]
 	}
 
 	return strings.Join(tbc.rows[row], ",")
