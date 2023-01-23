@@ -97,11 +97,14 @@ func (ftw *FormTextView) SetFieldBackgroundColor(color tcell.Color)        {}
 func (ftw *FormTextView) SetFieldBackgroundColorFocused(color tcell.Color) {}
 func (ftw *FormTextView) SetFieldTextColor(color tcell.Color)              {}
 func (ftw *FormTextView) SetFieldTextColorFocused(color tcell.Color)       {}
-func (ftw *FormTextView) SetFinishedFunc(action func(key tcell.Key))       {}
 func (ftw *FormTextView) SetLabelColor(color tcell.Color)                  {}
 func (ftw *FormTextView) SetLabelColorFocused(color tcell.Color)           {}
 func (ftw *FormTextView) SetLabelWidth(width int)                          {}
 func (ftw *FormTextView) SetLabel(label string)                            {}
+
+func (ftw *FormTextView) SetFinishedFunc(action func(key tcell.Key)) {
+	ftw.TextView.SetDoneFunc(action)
+}
 
 // Draw the widget on its place. This also contains dynamic hooks,
 // such as reformatting text on a fly, depending on the current dimensions.
