@@ -146,7 +146,7 @@ func (b *Button) Draw(screen tcell.Screen) {
 		Print(screen, b.label, x, y, width, AlignCenter, labelColor)
 
 		if b.focus.HasFocus() {
-			bst := tcell.StyleDefault.Background(Styles.ButtonFocusedBackgroundColor).Foreground(Styles.ButtonTextFocusedColor)
+			bst := tcell.StyleDefault.Background(b.backgroundColorFocused).Foreground(b.labelColorFocused)
 			screen.SetContent(x, y, '▶', nil, bst)
 			screen.SetContent(x+width-1, y, '◀', nil, bst)
 		}
