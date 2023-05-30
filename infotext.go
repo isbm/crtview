@@ -9,6 +9,15 @@ import (
 type InfoText struct {
 	fieldheight int
 
+	// A callback function set by the Form class and called when the user leaves
+	// this form item.
+	finished func(tcell.Key)
+
+	// An optional function which is called when the user indicated that they
+	// are done entering text. The key which was pressed is provided (tab,
+	// shift-tab, or escape).
+	done func(tcell.Key)
+
 	*Box
 	TextView
 	*FormItemBaseMixin
@@ -72,13 +81,26 @@ func (nt *InfoText) setVisible(v bool) {
 // subclass from Box, it is recommended that you wrap your handler using
 // Box.WrapInputHandler() so you inherit that functionality.
 func (nt *InfoText) InputHandler() func(event *tcell.EventKey, setFocus func(p Primitive)) {
-	return nt.TextView.InputHandler()
+	return nt.WrapInputHandler(func(event *tcell.EventKey, setFocus func(p Primitive)) {
+		if nt.done != nil {
+			nt.done(tcell.KeyTab)
+		}
+
+		if nt.finished != nil {
+			nt.finished(tcell.KeyTab)
+		}
+	})
 }
 
 // Focus is called by the application when the primitive receives focus.
 // Implementers may call delegate() to pass the focus on to another primitive.
 func (nt *InfoText) Focus(delegate func(p Primitive)) {
 	nt.TextView.Focus(delegate)
+
+	// Immediately skip to the next field
+	if nt.finished != nil {
+		nt.finished(tcell.KeyTab)
+	}
 }
 
 // Blur is called by the application when the primitive loses focus.
@@ -146,7 +168,19 @@ func (nt *InfoText) SetFieldBackgroundColorFocused(tcell.Color) {}
 func (nt *InfoText) SetBackgroundColor(tcell.Color) {}
 
 // SetFinishedFunc sets a callback invoked when the user leaves the form item.
-func (nt *InfoText) SetFinishedFunc(func(key tcell.Key)) {}
+func (nt *InfoText) SetFinishedFunc(handler func(key tcell.Key)) {
+	nt.Lock()
+	defer nt.Unlock()
+
+	nt.finished = handler
+}
+
+func (nt *InfoText) SetDoneFunc(handler func(key tcell.Key)) {
+	nt.Lock()
+	defer nt.Unlock()
+
+	nt.done = handler
+}
 
 // IsMaximised returns if a widget can be vertically maximised.
 func (nt *InfoText) IsMaximised() bool {
