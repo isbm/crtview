@@ -7,6 +7,10 @@ import (
 )
 
 type InfoText struct {
+	// Text color
+	defaultColor tcell.Color
+
+	// Height of the field
 	fieldheight int
 
 	// A callback function set by the Form class and called when the user leaves
@@ -40,6 +44,9 @@ func NewInfoText(content string) *InfoText {
 // screen's ShowCursor() function but should only do so when they have focus.
 // (They will need to keep track of this themselves.)
 func (nt *InfoText) Draw(screen tcell.Screen) {
+	x, y, w, _ := nt.GetRect()
+	nt.SetRect(x, y, w, nt.GetFieldHeight())
+	nt.TextView.SetTextColor(nt.defaultColor)
 	nt.TextView.Draw(screen)
 }
 
@@ -81,15 +88,7 @@ func (nt *InfoText) setVisible(v bool) {
 // subclass from Box, it is recommended that you wrap your handler using
 // Box.WrapInputHandler() so you inherit that functionality.
 func (nt *InfoText) InputHandler() func(event *tcell.EventKey, setFocus func(p Primitive)) {
-	return nt.WrapInputHandler(func(event *tcell.EventKey, setFocus func(p Primitive)) {
-		if nt.done != nil {
-			nt.done(tcell.KeyTab)
-		}
-
-		if nt.finished != nil {
-			nt.finished(tcell.KeyTab)
-		}
-	})
+	return nt.TextView.InputHandler()
 }
 
 // Focus is called by the application when the primitive receives focus.
@@ -99,7 +98,7 @@ func (nt *InfoText) Focus(delegate func(p Primitive)) {
 
 	// Immediately skip to the next field
 	if nt.finished != nil {
-		nt.finished(tcell.KeyTab)
+		nt.finished(tcell.KeyTab) // XXX: This does not know from where previous focus happened
 	}
 }
 
@@ -128,7 +127,7 @@ func (nt *InfoText) MouseHandler() func(action MouseAction, event *tcell.EventMo
 
 // GetLabel returns the item's label text.
 func (nt *InfoText) GetLabel() string {
-	return "label"
+	return ""
 }
 
 // SetLabelWidth sets the screen width of the label. A value of 0 will cause the
@@ -153,19 +152,22 @@ func (nt *InfoText) GetFieldHeight() int {
 }
 
 // SetFieldTextColor sets the text color of the input area.
-func (nt *InfoText) SetFieldTextColor(tcell.Color) {}
+func (nt *InfoText) SetFieldTextColor(c tcell.Color) {
+	nt.TextView.SetTextColor(c)
+}
 
 // SetFieldTextColorFocused sets the text color of the input area when focused.
-func (nt *InfoText) SetFieldTextColorFocused(tcell.Color) {}
+func (nt *InfoText) SetFieldTextColorFocused(c tcell.Color) {
+	//nt.TextView.SetTextColor(tcell.ColorGreenYellow)
+}
 
-// SetFieldBackgroundColor sets the background color of the input area.
-func (nt *InfoText) SetFieldBackgroundColor(tcell.Color) {}
-
-// SetFieldBackgroundColor sets the background color of the input area when focused.
-func (nt *InfoText) SetFieldBackgroundColorFocused(tcell.Color) {}
+func (nt *InfoText) SetFieldBackgroundColor(c tcell.Color)        {}
+func (nt *InfoText) SetFieldBackgroundColorFocused(c tcell.Color) {}
 
 // SetBackgroundColor sets the background color of the form item.
-func (nt *InfoText) SetBackgroundColor(tcell.Color) {}
+func (nt *InfoText) SetBackgroundColor(c tcell.Color) {
+	nt.TextView.SetBackgroundColor(c)
+}
 
 // SetFinishedFunc sets a callback invoked when the user leaves the form item.
 func (nt *InfoText) SetFinishedFunc(handler func(key tcell.Key)) {
