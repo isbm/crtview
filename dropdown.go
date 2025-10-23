@@ -180,6 +180,11 @@ func (d *DropDown) SetDropDownSymbolRune(symbol rune) {
 	d.dropDownSymbol = symbol
 }
 
+// GetListObject returns the internal List object used to display the drop-down options.
+func (d *DropDown) GetListObject() *List {
+	return d.list
+}
+
 // SetCurrentOption sets the index of the currently selected option. This may
 // be a negative value to indicate that no option is currently selected. Calling
 // this function will also trigger the "selected" callback (if there is one).

@@ -385,15 +385,23 @@ func (f *Form) AddPasswordField(label, value string, fieldWidth int, mask rune, 
 // selected. The initial option may be a negative value to indicate that no
 // option is currently selected.
 func (f *Form) AddDropDownSimple(label string, initialOption int, selected func(index int, option *DropDownOption), options ...string) {
-	f.Lock()
-	defer f.Unlock()
-
 	dd := NewDropDown()
 	dd.SetLabel(label)
 	dd.SetOptionsSimple(selected, options...)
 	dd.SetCurrentOption(initialOption)
 
-	f.items = append(f.items, dd)
+	f.AddFormItem(dd)
+}
+
+// AddDropDownDetached creates a drop-down element and returns it.
+// It must be later added to the form, because this element can be then modified (styles etc.)
+func (f *Form) AddDropDownDetached(label string, initialOption int, selected func(index int, option *DropDownOption), options ...string) *DropDown {
+	dd := NewDropDown()
+	dd.SetLabel(label)
+	dd.SetOptionsSimple(selected, options...)
+	dd.SetCurrentOption(initialOption)
+
+	return dd
 }
 
 // AddDropDown adds a drop-down element to the form. It has a label, options,
@@ -401,15 +409,12 @@ func (f *Form) AddDropDownSimple(label string, initialOption int, selected func(
 // selected. The initial option may be a negative value to indicate that no
 // option is currently selected.
 func (f *Form) AddDropDown(label string, initialOption int, selected func(index int, option *DropDownOption), options []*DropDownOption) {
-	f.Lock()
-	defer f.Unlock()
-
 	dd := NewDropDown()
 	dd.SetLabel(label)
 	dd.SetOptions(selected, options...)
 	dd.SetCurrentOption(initialOption)
 
-	f.items = append(f.items, dd)
+	f.AddFormItem(dd)
 }
 
 // AddCheckBox adds a checkbox to the form. It has a label, a message, an

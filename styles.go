@@ -80,7 +80,7 @@ var Styles = Theme{
 
 	PrimitiveBackgroundColor:    tcell.ColorBlack.TrueColor(),
 	ContrastBackgroundColor:     tcell.ColorBlue.TrueColor(),
-	MoreContrastBackgroundColor: tcell.ColorGreen.TrueColor(),
+	MoreContrastBackgroundColor: tcell.ColorGray.TrueColor(),
 
 	ButtonBackgroundColor:        tcell.ColorWhite.TrueColor(),
 	ButtonFocusedBackgroundColor: tcell.ColorYellow.TrueColor(),
