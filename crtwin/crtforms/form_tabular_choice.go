@@ -42,6 +42,8 @@ type FormTabularChoice struct {
 	// Index of newly selectedRows and deselectedRows items, if multi-select mode
 	selectedRows, deselectedRows []int
 
+	markerIcon string
+
 	*crtview.Table
 	*crtview.FormItemBaseMixin
 }
@@ -61,6 +63,7 @@ func NewFormTabularChoice(label string, header []string, rows [][]string, showSe
 		label:              label,
 		header:             header,
 		rows:               rows,
+		markerIcon:         " ◆ ",
 	}).init()
 }
 
@@ -97,6 +100,12 @@ func (tbc *FormTabularChoice) init() *FormTabularChoice {
 
 func (tbc *FormTabularChoice) insert(row []string, data string, pos int) []string {
 	return append(row[:pos], append([]string{data}, row[pos:]...)...)
+}
+
+// SetMarkerIcon sets the icon used to mark selected items in the selection column.
+func (tbc *FormTabularChoice) SetMarkerIcon(icon string) *FormTabularChoice {
+	tbc.markerIcon = icon
+	return tbc
 }
 
 // AppendContent to the existing one from the bottom of the table.
@@ -313,7 +322,7 @@ func (tbc *FormTabularChoice) setSelectedMarker(row int) {
 		for i := 1; i < tbc.GetRowCount(); i++ { // skip the header
 			label := "   "
 			if i == row {
-				label = " ◆ "
+				label = tbc.markerIcon
 			}
 			tbc.GetCell(i, 0).SetText(label)
 		}
