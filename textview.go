@@ -372,6 +372,15 @@ func (t *TextView) SetDynamicColors(dynamic bool) *TextView {
 	return t
 }
 
+// GetDynamicColors returns the flag that allows the text color to be changed
+// dynamically. See class description for details.
+func (t *TextView) GetDynamicColors() bool {
+	t.RLock()
+	defer t.RUnlock()
+
+	return t.dynamicColors
+}
+
 // SetRegions sets the flag that allows to define regions in the text. See class
 // description for details.
 func (t *TextView) SetRegions(regions bool) *TextView {

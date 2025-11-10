@@ -113,7 +113,7 @@ func (ftw *FormTextView) Draw(screen tcell.Screen) {
 	x, y, w, _ := ftw.GetRect()
 
 	// Place text on the widget where it belongs
-	text := ftw.GetText(true)
+	text := ftw.GetText(!ftw.GetDynamicColors())
 	if ftw.autofill {
 		text = ftw.getAutofilledMessage(w)
 	}
